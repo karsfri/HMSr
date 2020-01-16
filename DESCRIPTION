@@ -9,8 +9,9 @@ License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 Imports:
-  tidyverse,
-  lubridate,
-  ggplot2,
-  roxygen2
+    tidyverse,
+    lubridate,
+    ggplot2,
+    roxygen2,
+    forcats
 RoxygenNote: 7.0.2
