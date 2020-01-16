@@ -1,8 +1,12 @@
 library(tidyverse)
 
-# Load fonts
-windowsFonts(Setimo = windowsFont("Setimo"))
-windowsFonts(SetimoLight = windowsFont("Setimo Light"))
+#' @import tidyverse
+#' @import ggplot2
+#' @import lubridate
+#' @import magrittr
+#' @exportPattern ^[[:alpha:]]+
+
+
 
 
 # Colors for monthly report -----------------------------------------------
@@ -67,9 +71,19 @@ palette_hms_darker <- palette_hms_darker %>% unname()
 
 # theme for montly report -------------------------------------------------
 
-tsm <- 1 # 4 / 3 # text size multiplier
 
+#' theme
+#'
+#' @param tms
+#' @import ggplot2
+#'
+#' @return
+#' @export
+#'
+#' @examples
 theme_hms <- function(tms = 1){
+
+
   theme_gray() +
     theme(
       text = element_text(family = "SetimoLight"),
@@ -82,16 +96,16 @@ theme_hms <- function(tms = 1){
       panel.grid.major.y = element_line(colour = color_extra, size = 0.2),
       panel.grid.major.x = element_blank(),
 
-      strip.text = element_text(family = "SetimoLight", size = 7 * tsm, color = "black", face = "bold"),
-      strip.text.x = element_text(family = "SetimoLight", size = 7 * tsm, color = "black", face = "bold"),
+      strip.text = element_text(family = "SetimoLight", size = 7 * tms, color = "black", face = "bold"),
+      strip.text.x = element_text(family = "SetimoLight", size = 7 * tms, color = "black", face = "bold"),
       strip.background = element_blank(),
 
-      plot.title = element_text(family = "Setimo", size = 14 * tsm, face = "bold", color = blue),
-      plot.subtitle = element_text(family = "Setimo", size = 10 * tsm, color = blue),
-      plot.caption = element_text(family = "SetimoLight", size = 8 * tsm, color = blue, face = "italic"),
-      axis.title = element_text(size = 7 * tsm),
-      axis.text = element_text(colour = color_extra, size = 8 * tsm),
-      legend.text = element_text(colour = color_extra, size = 9 * tsm),
+      plot.title = element_text(family = "Setimo", size = 14 * tms, face = "bold", color = blue),
+      plot.subtitle = element_text(family = "Setimo", size = 10 * tms, color = blue),
+      plot.caption = element_text(family = "SetimoLight", size = 8 * tms, color = blue, face = "italic"),
+      axis.title = element_text(size = 7 * tms),
+      axis.text = element_text(colour = color_extra, size = 8 * tms),
+      legend.text = element_text(colour = color_extra, size = 9 * tms),
       plot.title.position = "plot",
       # axis.text.x = element_blank(),
 
@@ -209,6 +223,12 @@ ggsave_both <- function(filename, plot = last_plot(), width = width_wide,
 theme_set_hms <- function(theme = theme_hms(), change_palettes = TRUE){
   # Note that this function has external effects!
   # Wierd implimentation because the palettes cannot be named
+
+  # Load fonts
+  windowsFonts(Setimo = windowsFont("Setimo"))
+  windowsFonts(SetimoLight = windowsFont("Setimo Light"))
+
+
   yellow <- palette_light[1]
   yellow_dark <- palette_dark[1]
   red <- palette_dark [3]
