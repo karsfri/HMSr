@@ -11,7 +11,11 @@ LazyData: true
 Imports:
     tidyverse,
     lubridate,
-    ggplot2,
+    ggplot2 (>= 3.3.0.9000),
     roxygen2,
-    forcats
+    forcats,
+    here,
+    svglite
 RoxygenNote: 7.0.2
+Remotes: 
+    tidyverse/ggplot2
