@@ -47,7 +47,7 @@ economics %>%
   geom_point() +
   labs(
     title = "Lollipops and stuff",
-    subtitle = "With HMS colors",
+    subtitle = "With default colors :(",
     x = NULL,
     y = NULL,
     caption = "Source: None of your business :P"
@@ -76,7 +76,7 @@ economics %>%
   scale_y_continuous(labels = label_isl()) +
   labs(
     title = "Lollipops and stuff",
-    subtitle = "With HMS colors",
+    subtitle = "With HMS colors :)",
     x = NULL,
     y = NULL,
     caption = "Source: None of your business :P"
