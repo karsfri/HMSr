@@ -77,9 +77,8 @@ palette_hms_darker <- c(
 #' @examples
 theme_hms <- function(tms = 1){
 
-
-  ggplot2::theme_gray() +
-    ggplot2::theme(
+  theme_gray() +
+    theme(
       text = element_text(family = "SetimoLight"),
       line = element_line(size = 0.6),
       rect = element_rect(size = 0.6),
@@ -87,14 +86,14 @@ theme_hms <- function(tms = 1){
 
       plot.background = element_blank(),
       panel.background = element_blank(),
-      panel.grid.major.y = element_line(colour = color_extra, size = 0.2),
+      panel.grid.major.y = element_line(colour = color_extra, size = 0.04),
       panel.grid.major.x = element_blank(),
 
       strip.text = element_text(family = "SetimoLight", size = 7 * tms, color = "black", face = "bold"),
       strip.text.x = element_text(family = "SetimoLight", size = 7 * tms, color = "black", face = "bold"),
       strip.background = element_blank(),
 
-      plot.title = element_text(family = "Setimo", size = 14 * tms, face = "bold", color = blue),
+      plot.title = element_text(family = "Setimo", size = 12 * tms, face = "bold", color = blue),
       plot.subtitle = element_text(family = "Setimo", size = 10 * tms, color = blue),
       plot.caption = element_text(family = "SetimoLight", size = 8 * tms, color = blue, face = "italic"),
       axis.title = element_text(size = 7 * tms),
