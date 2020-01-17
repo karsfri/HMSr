@@ -20,6 +20,14 @@ This pacake will include:
 
 ## Installation
 
+**NOTE: MIGHT NOT WORK IN MAC BECAUSE OF THE FOLLOWING CODE IN theme.R**
+
+``` r
+# Load fonts
+  # grDevices::windowsFonts(Setimo = windowsFont("Setimo"))
+  # grDevices::windowsFonts(SetimoLight = windowsFont("Setimo Light"))
+```
+
 You can install the development version from
 [GitHub](https://github.com/) with:
 
@@ -29,6 +37,8 @@ remotes::install_github("karsfri/HMSr")
 ```
 
 ## Theme
+
+**NOTE:** color palette will improve\! Waiting for more colors
 
 The default template in ggplot2 is readable, but ugly:
 
@@ -55,7 +65,7 @@ economics %>%
   facet_wrap(~var, scales = "free_y")
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
 The `theme_set_hms()` function sets `theme_hms` as the default theme,
 along with default colors for some of the more popular geoms.
@@ -84,23 +94,27 @@ economics %>%
   facet_wrap(~var, scales = "free_y")
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+
+### Palettes
+
+### Scales
 
 ### Caption strings
 
-Strengir fyrir algengar heimildir:
+Strings for common sources to put in caption:
 
 ``` r
 c(
-  cap_hms,
-  cap_hagstofa,
-  cap_hms_hagstofa,
-  cap_thjodskra,
-  cap_hms_thjodskra,
-  cap_sedlo,
-  cap_hms_sedlo
+cap_hms,
+cap_hagstofa,
+cap_hms_hagstofa,
+cap_thjodskra,
+cap_hms_thjodskra,
+cap_sedlo,
+cap_hms_sedlo
 ) %>% 
-  knitr::kable()
+knitr::kable()
 ```
 
 | x                                           |
@@ -113,9 +127,67 @@ c(
 | Heimild: Seðlabanki Íslands                 |
 | Heimild: Seðlabanki Íslands og hagdeild HMS |
 
+## save functions
+
+The functions `ggsave_png`, `ggsave_svg` and `ggsave_both` are thin
+wrappers around `ggsave`, with default resolution and size set. There
+are two commonly used length and width parameters in *HMS* documents,
+and those are provided as objects and they have the following values in
+cm:
+
+``` r
+c(
+  width_narrow,
+  width_wide,
+  height_regular,
+  height_full
+) %>% 
+  knitr::kable()
+```
+
+|    x |
+| ---: |
+|  8.5 |
+| 18.0 |
+|  9.0 |
+| 20.0 |
+
 ## Seasonal adjustment
 
-TBD
+*NOT READY*
+
+``` r
+trade <- read_hagstofan_alt("https://px.hagstofa.is:443/pxis/sq/8ad42406-35c1-442b-a556-1498992b56ed") 
+
+trade %>% 
+  mutate(Mánuður = lubriYYYYMM(Mánuður)) %>% 
+    mutate(`Útflutningur fob - Árstíðarleiðrétt` = tidy_seas(
+      `Útflutningur fob`, Mánuður, 
+      return =  "seasonaladj")
+      ) %>%  
+  select(Mánuður, `Útflutningur fob`, `Útflutningur fob - Árstíðarleiðrétt` ) %>% 
+  gather(var, val, -Mánuður) %>% 
+  ggplot(aes(Mánuður, val, color = var)) +
+  geom_line()
+```
+
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+
+``` r
+trade %>% 
+  mutate(Mánuður = lubriYYYYMM(Mánuður)) %>% 
+  gather(var, val, -Mánuður) %>% 
+    mutate(val_sa = tidy_seas(
+      val, Mánuður, 
+      return =  "final")
+      ) %>%  
+  gather(seasonal, val, -Mánuður, -var) %>% 
+  ggplot(aes(Mánuður, val, color = seasonal)) +
+  geom_line() +
+  facet_wrap(~var)
+```
+
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
 
 ## Dates
 

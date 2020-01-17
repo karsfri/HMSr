@@ -1,7 +1,7 @@
 #' Title
 #'
 #' @return
-#' @export
+#' @exportPattern ^[[:alpha:]]
 #' @import lubridate
 #' @import tidyverse
 #'

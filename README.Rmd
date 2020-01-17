@@ -31,6 +31,14 @@ This pacake will include:
 
 ## Installation
 
+**NOTE: MIGHT NOT WORK IN MAC BECAUSE OF THE FOLLOWING CODE IN theme.R**
+
+```{r}
+# Load fonts
+  # grDevices::windowsFonts(Setimo = windowsFont("Setimo"))
+  # grDevices::windowsFonts(SetimoLight = windowsFont("Setimo Light"))
+```
+
 You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
@@ -38,6 +46,8 @@ You can install the development version from [GitHub](https://github.com/) with:
 remotes::install_github("karsfri/HMSr")
 ```
 ## Theme
+
+**NOTE:** color palette will improve! Waiting for more colors
 
 The default template in ggplot2 is readable, but ugly:
 
@@ -92,11 +102,16 @@ economics %>%
   facet_wrap(~var, scales = "free_y")
 ```
 
+### Palettes
+
+
+### Scales
+
 ### Caption strings
 
-Strengir fyrir algengar heimildir:
-
-```{r}
+Strings for common sources to put in caption:
+  
+  ```{r}
 c(
   cap_hms,
   cap_hagstofa,
@@ -109,10 +124,56 @@ c(
   knitr::kable()
 ```
 
+## save functions
+The functions `ggsave_png`, `ggsave_svg` and `ggsave_both` are thin wrappers around `ggsave`, with default resolution and size set. There are two commonly used length and width parameters in *HMS* documents, and those are provided as objects and they have the following values in cm:
+
+```{r}
+c(
+  width_narrow,
+  width_wide,
+  height_regular,
+  height_full
+) %>% 
+  knitr::kable()
+```
+
 ## Seasonal adjustment
 
-TBD
+*NOT READY*
 
+
+
+```{r}
+trade <- read_hagstofan_alt("https://px.hagstofa.is:443/pxis/sq/8ad42406-35c1-442b-a556-1498992b56ed") 
+
+trade %>% 
+  mutate(Mánuður = lubriYYYYMM(Mánuður)) %>% 
+    mutate(`Útflutningur fob - Árstíðarleiðrétt` = tidy_seas(
+      `Útflutningur fob`, Mánuður, 
+      return =  "seasonaladj")
+      ) %>%  
+  select(Mánuður, `Útflutningur fob`, `Útflutningur fob - Árstíðarleiðrétt` ) %>% 
+  gather(var, val, -Mánuður) %>% 
+  ggplot(aes(Mánuður, val, color = var)) +
+  geom_line()
+
+```
+
+```{r}
+
+trade %>% 
+  mutate(Mánuður = lubriYYYYMM(Mánuður)) %>% 
+  gather(var, val, -Mánuður) %>% 
+    mutate(val_sa = tidy_seas(
+      val, Mánuður, 
+      return =  "final")
+      ) %>%  
+  gather(seasonal, val, -Mánuður, -var) %>% 
+  ggplot(aes(Mánuður, val, color = seasonal)) +
+  geom_line() +
+  facet_wrap(~var)
+
+```
 
 ## Dates
 

@@ -4,7 +4,7 @@ Title: Theme and functions for HMS
 Version: 0.1.0
 Author: Kári S Friðriksson
 Maintainer: The package maintainer <kari.fridriksson@hms.is>
-Description: Custom functions for HMS.
+Description: Theme and custom functions for HMS.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true

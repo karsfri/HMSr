@@ -6,7 +6,7 @@
 #' @import lubridate
 #' @import magrittr
 #' @return
-#' @export
+#' @exportPattern ^[[:alpha:]]
 #'
 #' @examples
 lubriyear <- function(year, month = "01"){

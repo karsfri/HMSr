@@ -8,7 +8,7 @@
 #' @import lubridate
 #'
 #' @return
-#' @export
+#' @exportPattern ^[[:alpha:]]
 #'
 #' @examples
 #'

@@ -12,7 +12,7 @@
 #' @param ...
 #'
 #' @return
-#' @export
+#' @exportPattern ^[[:alpha:]]
 #'
 #' @examples
 #'

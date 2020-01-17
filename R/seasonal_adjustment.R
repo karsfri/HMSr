@@ -1,6 +1,6 @@
 
 
-#' Title
+#' Seasonal Adjustment
 #'
 #' @param x
 #' @param date
@@ -11,35 +11,43 @@
 #' @import broom
 #' @import tidyverse
 #' @import lubridate
-#' @export
+#' @import seasonal
+#' @exportPattern ^[[:alpha:]]
 #'
 #' @examples
 #'
 #'
-tidy_seas <- function(x, date, frequency = 12, ...){
+tidy_seas <- function(x, date, frequency = 12, return = "final", ...){
+  # return = c("final", "seasonal", "seasonaladj", "trend", "irregular", "adjustfac")
 
   start <- min(date)
   start <- year(start) + month(start) / 12
-  x <- ts(x, start = start, frequency = frequency)
+  ts_data <- ts(x, start = start, frequency = frequency)
 
-  x %>%
+  adjusted <- adjust(ts_data)
+
+  adjusted %>%
+    pluck(return)
+
+}
+
+#'
+#' @return
+#' @import broom
+#' @import tidyverse
+#' @import lubridate
+#' @import seasonal
+#' @exportPattern ^[[:alpha:]]
+#'
+#' @examples
+#'
+#'
+adjust <- function(ts_data, ...){
+  ts_data %>%
     seas(...) %>%
     pluck("data") %>%
     as_tibble()
-
 }
-#
-# nested_seas <- function(data, x, date, frequency = 12, ...){
-#   x <- enquo(x)
-#   date <- enquo(date)
-#
-#   tx <- data %>% select(!!x) %>%  pull(1)
-#   date_series <- data %>% select(!!date) %>% pull(1)
-#
-#   tidy_seas(tx, date_series, frequency = frequency, ...) %>%
-#     bind_cols(data %>% select(-!!date))
-#
-# }
 #
 # map_seas <- function(data, var, date){
 #   var <- enquo(var)
