@@ -165,11 +165,13 @@ label_isl <- function(accuracy = 1, scale = 1, ...){
 
 # Common caption names ----------------------------------------------------
 
-cap_hms <- "Heimild: hagdeild Húsnæðis- og mannvirkjastofnunar"
+cap_hms <- "Heimild: Hagdeild HMS"
 cap_thjodskra <- "Heimild: Þjóðskrá Íslands"
-cap_hms_thjodskra <- "Heimild: Þjóðskrá Íslands og hagdeild Húsnæðis- og mannvirkjastofnunar"
+cap_hms_thjodskra <- "Heimild: Þjóðskrá Íslands og hagdeild HMS"
 cap_hagstofa <- "Heimild: Hagstofa Íslands"
-cap_hms_hagstofa <- "Heimild: Hagstofa Íslands og hagdeild Húsnæðis- og mannvirkjastofnunar"
+cap_hms_hagstofa <- "Heimild: Hagstofa Íslands og hagdeild HMS"
+cap_sedlo <- "Heimild: Seðlabanki Íslands"
+cap_hms_sedlo <- "Heimild: Seðlabanki Íslands og hagdeild HMS"
 
 # Set theme  --------------------------------------------------------------
 

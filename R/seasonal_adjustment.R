@@ -1,18 +1,33 @@
-# seasonal ----------------------------------------------------------------
-#
-# tidy_seas <- function(x, date, frequency = 12, ...){
-#   require(lubridate)
-#   require(broom)
-#   start <- min(date)
-#   start <- year(start) + month(start) / 12
-#   x <- ts(x, start = start, frequency = frequency)
-#
-#   x %>%
-#     seas(...) %>%
-#     pluck("data") %>%
-#     as_tibble()
-#
-# }
+
+
+#' Title
+#'
+#' @param x
+#' @param date
+#' @param frequency
+#' @param ...
+#'
+#' @return
+#' @import broom
+#' @import tidyverse
+#' @import lubridate
+#' @export
+#'
+#' @examples
+#'
+#'
+tidy_seas <- function(x, date, frequency = 12, ...){
+
+  start <- min(date)
+  start <- year(start) + month(start) / 12
+  x <- ts(x, start = start, frequency = frequency)
+
+  x %>%
+    seas(...) %>%
+    pluck("data") %>%
+    as_tibble()
+
+}
 #
 # nested_seas <- function(data, x, date, frequency = 12, ...){
 #   x <- enquo(x)

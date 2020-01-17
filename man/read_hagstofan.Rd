@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_hagstofan.R
 \name{read_hagstofan}
 \alias{read_hagstofan}
-\title{Title}
+\title{read_hagstofan}
 \usage{
 read_hagstofan(
   file,
@@ -21,5 +21,8 @@ read_hagstofan(
 
 }
 \description{
-Title
+read_hagstofan
+}
+\examples{
+
 }

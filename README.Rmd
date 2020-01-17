@@ -25,7 +25,9 @@ This pacake will include:
 
  * **Graphical theme** 
  * **Common helper functions**
- * **Tools for working with the datawarehouse**
+    + Tidy seasonal adjustment with X13
+ * **Tools for getting and handling data from the datawarehouse**
+ * **functions to get external data**
 
 ## Installation
 
@@ -64,9 +66,9 @@ economics %>%
 
 ```
 
-The *theme_set_hms()* function sets *theme_hms* as the default theme, along with default colors for some of the more popular geoms.
+The `theme_set_hms()` function sets `theme_hms` as the default theme, along with default colors for some of the more popular geoms.
 
-Notice also the helper function, *label_isl()*.
+Notice also the helper function, `label_isl()`.
 
 ```{r}
 theme_set_hms()
@@ -89,6 +91,28 @@ economics %>%
   ) +
   facet_wrap(~var, scales = "free_y")
 ```
+
+### Caption strings
+
+Strengir fyrir algengar heimildir:
+
+```{r}
+c(
+  cap_hms,
+  cap_hagstofa,
+  cap_hms_hagstofa,
+  cap_thjodskra,
+  cap_hms_thjodskra,
+  cap_sedlo,
+  cap_hms_sedlo
+) %>% 
+  knitr::kable()
+```
+
+## Seasonal adjustment
+
+TBD
+
 
 ## Dates
 

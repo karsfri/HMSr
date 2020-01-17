@@ -14,7 +14,9 @@ This pacake will include:
 
   - **Graphical theme**
   - **Common helper functions**
-  - **Tools for working with the datawarehouse**
+      - Tidy seasonal adjustment with X13
+  - **Tools for getting and handling data from the datawarehouse**
+  - **functions to get external data**
 
 ## Installation
 
@@ -55,10 +57,10 @@ economics %>%
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
-The *theme\_set\_hms()* function sets *theme\_hms* as the default theme,
+The `theme_set_hms()` function sets `theme_hms` as the default theme,
 along with default colors for some of the more popular geoms.
 
-Notice also the helper function, *label\_isl()*.
+Notice also the helper function, `label_isl()`.
 
 ``` r
 theme_set_hms()
@@ -83,6 +85,37 @@ economics %>%
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+
+### Caption strings
+
+Strengir fyrir algengar heimildir:
+
+``` r
+c(
+  cap_hms,
+  cap_hagstofa,
+  cap_hms_hagstofa,
+  cap_thjodskra,
+  cap_hms_thjodskra,
+  cap_sedlo,
+  cap_hms_sedlo
+) %>% 
+  knitr::kable()
+```
+
+| x                                           |
+| :------------------------------------------ |
+| Heimild: Hagdeild HMS                       |
+| Heimild: Hagstofa Íslands                   |
+| Heimild: Hagstofa Íslands og hagdeild HMS   |
+| Heimild: Þjóðskrá Íslands                   |
+| Heimild: Þjóðskrá Íslands og hagdeild HMS   |
+| Heimild: Seðlabanki Íslands                 |
+| Heimild: Seðlabanki Íslands og hagdeild HMS |
+
+## Seasonal adjustment
+
+TBD
 
 ## Dates
 

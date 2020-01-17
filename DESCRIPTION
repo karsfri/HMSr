@@ -19,3 +19,5 @@ Imports:
 RoxygenNote: 7.0.2
 Remotes: 
     tidyverse/ggplot2
+Suggests: 
+    testthat
