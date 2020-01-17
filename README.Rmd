@@ -6,8 +6,8 @@ output: github_document
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
+  message= FALSE,
+  warning = FALSE,
   fig.path = "man/figures/README-",
   out.width = "100%",
   dpi = 300
@@ -21,6 +21,12 @@ knitr::opts_chunk$set(
 
 **NOTE: MOST OF THE FUNCTION HAVE NO PRACTICAL USE OUTSIDE [HMS](https://www.hms.is/)**
 
+This pacake will include:
+
+ * **Graphical theme** 
+ * **Common helper functions**
+ * **Tools for working with the datawarehouse**
+
 ## Installation
 
 You can install the development version from [GitHub](https://github.com/) with:
@@ -33,13 +39,11 @@ remotes::install_github("karsfri/HMSr")
 
 The default template in ggplot2 is readable, but ugly:
 
-```{r example}
+```{r}
 library(tidyverse)
 library(patchwork)
 library(lubridate)
 library(HMSr)
-
-
 data("economics")
 
 economics %>%
@@ -64,7 +68,7 @@ The *theme_set_hms()* function sets *theme_hms* as the default theme, along with
 
 Notice also the helper function, *label_isl()*.
 
-```{r cars}
+```{r}
 theme_set_hms()
 
 economics %>%
@@ -91,7 +95,7 @@ economics %>%
 The lubriyear converts numeric vector containing years to a date variable at January first of the corrisponding year:
 
 ```{r}
-x <- tibble(year = 2002:2017)
+x <- tibble(year = 2010:2017)
 
 x %>% 
   mutate(timi = lubriyear(year)) %>% 
@@ -102,7 +106,7 @@ It also has optional argument, month:
 ```{r}
 x %>% 
   mutate(
-    month = rep_len(rep(1:12), 16),
+    month = rep_len(rep(1:12), 8),
     timi = lubriyear(year, month)
     )
 ```
