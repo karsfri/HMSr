@@ -197,7 +197,7 @@ x %>%
 ```
 
 
-lubriYYYYMM works the same, but is made specially for the MMMMYY variable from the datawarehouse:
+lubriYYYYMM works the same, but is made specially for the MMMMYY variable from the datawarehouse (and some tables from hagstofan.is):
 
 ```{r}
 lubriYYYYMM("2017M03") %>% 

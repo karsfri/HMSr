@@ -236,7 +236,7 @@ x %>%
     ## 8  2017     8 2017-08-01
 
 lubriYYYYMM works the same, but is made specially for the MMMMYY
-variable from the datawarehouse:
+variable from the datawarehouse (and some tables from hagstofan.is):
 
 ``` r
 lubriYYYYMM("2017M03") %>% 
