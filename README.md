@@ -98,6 +98,8 @@ economics %>%
 
 ### Palettes
 
+**WAITING FOR PERMANENT PALETTES**
+
 ### Scales
 
 ### Caption strings
@@ -156,38 +158,56 @@ c(
 
 *NOT READY*
 
-``` r
-trade <- read_hagstofan_alt("https://px.hagstofa.is:443/pxis/sq/8ad42406-35c1-442b-a556-1498992b56ed") 
+Group of functions that make X13-ARIMA seasonal adjustment easier on the
+fly.
 
+  - `seas_seasonally_adjusted()`
+  - `seas_trend()`
+  - `seas_seasonal_components()`
+  - `seas_irregular()`
+  - `seas_irregular()`
+
+<!-- end list -->
+
+``` r
+# https://px.hagstofa.is/pxis/pxweb/is/Efnahagur/Efnahagur__utanrikisverslun__1_voruvidskipti__01_voruskipti/UTA06002.px/table/tableViewLayout1/?rxid=8966fb9b-6a92-41b6-8758-129d490bb573
+trade <- read_hagstofan_alt("https://px.hagstofa.is:443/pxis/sq/8ad42406-35c1-442b-a556-1498992b56ed")
+```
+
+The data is different components of international trade:
+
+``` r
 trade %>% 
-  mutate(Mánuður = lubriYYYYMM(Mánuður)) %>% 
-    mutate(`Útflutningur fob - Árstíðarleiðrétt` = tidy_seas(
-      `Útflutningur fob`, Mánuður, 
-      return =  "seasonaladj")
-      ) %>%  
-  select(Mánuður, `Útflutningur fob`, `Útflutningur fob - Árstíðarleiðrétt` ) %>% 
-  gather(var, val, -Mánuður) %>% 
+  head() %>% 
+  knitr::kable()
+```
+
+| Mánuður | Útflutningur fob | Innflutningur fob | Innflutningur cif | Vöruviðskiptajöfnuður fob-fob | Vöruviðskiptajöfnuður fob-cif |
+| :------ | ---------------: | ----------------: | ----------------: | ----------------------------: | ----------------------------: |
+| 2010M01 |          38605.1 |           32927.7 |           35657.7 |                        5677.5 |                        2947.4 |
+| 2010M02 |          44266.3 |           30393.2 |           33079.4 |                       13873.1 |                       11186.9 |
+| 2010M03 |          52763.7 |           41325.0 |           44660.1 |                       11438.8 |                        8103.7 |
+| 2010M04 |          41095.7 |           33791.0 |           36750.9 |                        7304.7 |                        4344.8 |
+| 2010M05 |          52311.9 |           35690.6 |           39066.4 |                       16621.3 |                       13245.5 |
+| 2010M06 |          50671.3 |           39247.5 |           42577.4 |                       11423.8 |                        8094.0 |
+
+Seasonal adjustment for one group:
+
+``` r
+trade %>%
+  mutate(Mánuður = lubriYYYYMM(Mánuður)) %>%
+  ################# Magic :) #################################################
+  mutate(
+    `Útflutningur fob - Árstíðarleiðrétt` = seas_seasonally_adjusted(`Útflutningur fob`, Mánuður)
+    ) %>%
+  ##############################################################################
+  select(Mánuður, `Útflutningur fob`, `Útflutningur fob - Árstíðarleiðrétt` ) %>%
+  gather(var, val, -Mánuður) %>%
   ggplot(aes(Mánuður, val, color = var)) +
   geom_line()
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
-
-``` r
-trade %>% 
-  mutate(Mánuður = lubriYYYYMM(Mánuður)) %>% 
-  gather(var, val, -Mánuður) %>% 
-    mutate(val_sa = tidy_seas(
-      val, Mánuður, 
-      return =  "final")
-      ) %>%  
-  gather(seasonal, val, -Mánuður, -var) %>% 
-  ggplot(aes(Mánuður, val, color = seasonal)) +
-  geom_line() +
-  facet_wrap(~var)
-```
-
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
 
 ## Dates
 

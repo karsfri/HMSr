@@ -1,0 +1,99 @@
+---
+title: "tidy-seas"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{tidy-seas}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(HMSr)
+library(tidyverse)
+theme_set_hms()
+# https://px.hagstofa.is/pxis/pxweb/is/Efnahagur/Efnahagur__utanrikisverslun__1_voruvidskipti__01_voruskipti/UTA06002.px/table/tableViewLayout1/?rxid=8966fb9b-6a92-41b6-8758-129d490bb573
+trade <- read_hagstofan_alt("https://px.hagstofa.is:443/pxis/sq/8ad42406-35c1-442b-a556-1498992b56ed")
+```
+
+The data is different components of international trade:
+
+```{r}
+trade %>% 
+  head() %>% 
+  knitr::kable()
+```
+
+
+Seasonal adjustment for one group:
+
+
+```{r}
+trade %>%
+  mutate(Mánuður = lubriYYYYMM(Mánuður)) %>%
+  ################# Magic :) #################################################
+  mutate(
+    `Útflutningur fob - Árstíðarleiðrétt` = seas_seasonally_adjusted(`Útflutningur fob`, Mánuður)
+    ) %>%
+  ##############################################################################
+  select(Mánuður, `Útflutningur fob`, `Útflutningur fob - Árstíðarleiðrétt` ) %>%
+  gather(var, val, -Mánuður) %>%
+  ggplot(aes(Mánuður, val, color = var)) +
+  geom_line()
+```
+
+the trend component:
+
+```{r}
+trade %>%
+  mutate(Mánuður = lubriYYYYMM(Mánuður)) %>%
+  ################# Magic :) #################################################
+  mutate(
+    `Útflutningur fob - Trend` = seas_trend(`Útflutningur fob`, Mánuður)
+    ) %>%
+  ##############################################################################
+  select(Mánuður, `Útflutningur fob`,  `Útflutningur fob - Trend` ) %>%
+  gather(var, val, -Mánuður) %>%
+  ggplot(aes(Mánuður, val, color = var)) +
+  geom_line()
+```
+
+## Many groups
+
+The data is transformed as suchs:
+
+```{r}
+trade_long <- trade %>%
+  mutate(Mánuður = lubriYYYYMM(Mánuður)) %>%
+  gather(variable, value, -Mánuður) 
+
+trade_long %>% 
+  head() %>% 
+  knitr::kable()
+```
+
+Must use group_by such that there is only one series per group:
+
+```{r}
+trade_long %>% 
+  group_by(variable) %>% 
+  mutate(trend = seas_trend(value, Mánuður)) %>% 
+  ggplot(aes(Mánuður, trend, color = variable)) +
+  geom_line()
+```
+
+The following will throw an error:
+
+```{r, error=TRUE}
+trade_long %>% 
+  # group_by(variable) %>% 
+  mutate(trend = seas_trend(value, Mánuður)) %>% 
+  ggplot(aes(Mánuður, trend, color = variable)) +
+  geom_line()
+```

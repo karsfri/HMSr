@@ -18,18 +18,42 @@
 #'
 #'
 tidy_seas <- function(x, date, frequency = 12, return = "final", ...){
-  # return = c("final", "seasonal", "seasonaladj", "trend", "irregular", "adjustfac")
 
-  start <- min(date)
-  start <- year(start) + month(start) / 12
-  ts_data <- ts(x, start = start, frequency = frequency)
+  stopifnot(length(date) == length(unique(date)))
 
+  ts_data <- col_to_ts(x, start = min(date), frequency = frequency)
   adjusted <- adjust(ts_data)
-
   adjusted %>%
     pluck(return)
-
 }
+
+
+seas_seasonally_adjusted <- function(x, date, frequency = 12, ...){
+  tidy_seas(x = x, date = date, frequency = frequency, return = "final", ...)
+}
+
+seas_seasonal_components <- function(x, date, frequency = 12, ...){
+  tidy_seas(x = x, date = date, frequency = frequency, return = "seasonal", ...)
+}
+
+seas_trend <- function(x, date, frequency = 12, ...){
+  tidy_seas(x = x, date = date, frequency = frequency, return = "trend", ...)
+}
+
+seas_irregular <- function(x, date, frequency = 12, ...){
+  tidy_seas(x = x, date = date, frequency = frequency, return = "irregular", ...)
+}
+
+seas_adjustfac <- function(x, date, frequency = 12, ...){
+  tidy_seas(x = x, date = date, frequency = frequency, return = "adjustfac", ...)
+}
+
+
+col_to_ts <- function(x, start, frequency){
+  start <- year(start) + month(start) / 12
+  ts_data <- ts(x, start = start, frequency = frequency)
+}
+
 
 #'
 #' @return
