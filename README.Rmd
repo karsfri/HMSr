@@ -244,7 +244,7 @@ trade_seas%>%
 
 ```{r}
 trade_seas%>% 
-  filter(seasonal_component %in% c("trend", "final", "value")) %>% 
+  filter(seasonal_component %in% c("seasonal")) %>% 
   ggplot(aes(Mánuður, seasonal_value, color = seasonal_component)) +
   geom_line() +
   facet_wrap(~variable, scales = "free_y")
