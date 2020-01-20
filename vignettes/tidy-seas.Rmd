@@ -97,3 +97,32 @@ trade_long %>%
   ggplot(aes(Mánuður, trend, color = variable)) +
   geom_line()
 ```
+
+It is possible to get all the different components from the `seasonal::seas()` function with `map_seas()` but it's
+
+still *experimental*. It might result in unexpected behaviour if the data structure is different from this example.
+
+```{r}
+trade_seas <- trade_long %>% 
+  group_by(variable) %>% 
+  map_seas(value, Mánuður) 
+
+trade_seas%>% 
+  filter(seasonal_component %in% c("trend", "final", "value")) %>% 
+  ggplot(aes(Mánuður, seasonal_value, color = seasonal_component)) +
+  geom_line() +
+  facet_wrap(~variable, scales = "free_y")
+  
+
+```
+
+
+
+```{r}
+trade_seas%>% 
+  filter(seasonal_component %in% c("trend", "final", "value")) %>% 
+  ggplot(aes(Mánuður, seasonal_value, color = seasonal_component)) +
+  geom_line() +
+  facet_wrap(~variable, scales = "free_y")
+```
+

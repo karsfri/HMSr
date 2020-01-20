@@ -170,28 +170,12 @@ fly.
 <!-- end list -->
 
 ``` r
-# https://px.hagstofa.is/pxis/pxweb/is/Efnahagur/Efnahagur__utanrikisverslun__1_voruvidskipti__01_voruskipti/UTA06002.px/table/tableViewLayout1/?rxid=8966fb9b-6a92-41b6-8758-129d490bb573
 trade <- read_hagstofan_alt("https://px.hagstofa.is:443/pxis/sq/8ad42406-35c1-442b-a556-1498992b56ed")
 ```
 
-The data is different components of international trade:
-
-``` r
-trade %>% 
-  head() %>% 
-  knitr::kable()
-```
-
-| Mánuður | Útflutningur fob | Innflutningur fob | Innflutningur cif | Vöruviðskiptajöfnuður fob-fob | Vöruviðskiptajöfnuður fob-cif |
-| :------ | ---------------: | ----------------: | ----------------: | ----------------------------: | ----------------------------: |
-| 2010M01 |          38605.1 |           32927.7 |           35657.7 |                        5677.5 |                        2947.4 |
-| 2010M02 |          44266.3 |           30393.2 |           33079.4 |                       13873.1 |                       11186.9 |
-| 2010M03 |          52763.7 |           41325.0 |           44660.1 |                       11438.8 |                        8103.7 |
-| 2010M04 |          41095.7 |           33791.0 |           36750.9 |                        7304.7 |                        4344.8 |
-| 2010M05 |          52311.9 |           35690.6 |           39066.4 |                       16621.3 |                       13245.5 |
-| 2010M06 |          50671.3 |           39247.5 |           42577.4 |                       11423.8 |                        8094.0 |
-
-Seasonal adjustment for one group:
+The
+[data](https://px.hagstofa.is/pxis/pxweb/is/Efnahagur/Efnahagur__utanrikisverslun__1_voruvidskipti__01_voruskipti/UTA06002.px/table/tableViewLayout1/?rxid=8966fb9b-6a92-41b6-8758-129d490bb573)
+is different components of international trade:
 
 ``` r
 trade %>%
@@ -207,7 +191,102 @@ trade %>%
   geom_line()
 ```
 
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+
+the trend component:
+
+``` r
+trade %>%
+  mutate(Mánuður = lubriYYYYMM(Mánuður)) %>%
+  ################# Magic :) #################################################
+  mutate(
+    `Útflutningur fob - Trend` = seas_trend(`Útflutningur fob`, Mánuður)
+    ) %>%
+  ##############################################################################
+  select(Mánuður, `Útflutningur fob`,  `Útflutningur fob - Trend` ) %>%
+  gather(var, val, -Mánuður) %>%
+  ggplot(aes(Mánuður, val, color = var)) +
+  geom_line()
+```
+
 <img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+
+### Many groups
+
+``` r
+trade_long <- trade %>%
+  mutate(Mánuður = lubriYYYYMM(Mánuður)) %>%
+  gather(variable, value, -Mánuður) 
+
+trade_long %>% 
+  head() %>% 
+  knitr::kable()
+```
+
+| Mánuður    | variable         |   value |
+| :--------- | :--------------- | ------: |
+| 2010-01-01 | Útflutningur fob | 38605.1 |
+| 2010-02-01 | Útflutningur fob | 44266.3 |
+| 2010-03-01 | Útflutningur fob | 52763.7 |
+| 2010-04-01 | Útflutningur fob | 41095.7 |
+| 2010-05-01 | Útflutningur fob | 52311.9 |
+| 2010-06-01 | Útflutningur fob | 50671.3 |
+
+If the data is in a *long* format or *tidy* format, make sure to group
+the variables in such a way that all the dates are distinct within each
+group:
+
+``` r
+trade_long %>% 
+  group_by(variable) %>% 
+  mutate(trend = seas_trend(value, Mánuður)) %>% 
+  ggplot(aes(Mánuður, trend, color = variable)) +
+  geom_line()
+```
+
+<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
+
+Failing to do so will result in an error:
+
+``` r
+trade_long %>% 
+  # group_by(variable) %>% 
+  mutate(trend = seas_trend(value, Mánuður)) %>% 
+  ggplot(aes(Mánuður, trend, color = variable)) +
+  geom_line()
+```
+
+    ## Error in tidy_seas(x = x, date = date, frequency = frequency, ...): length(date) == length(unique(date)) is not TRUE
+
+It is possible to get all the different components from the
+`seasonal::seas()` function with `map_seas()` but it’s
+
+still *experimental*. It might result in unexpected behaviour if the
+data structure is different from this example.
+
+``` r
+trade_seas <- trade_long %>% 
+  group_by(variable) %>% 
+  map_seas(value, Mánuður) 
+
+trade_seas%>% 
+  filter(seasonal_component %in% c("trend", "final", "value")) %>% 
+  ggplot(aes(Mánuður, seasonal_value, color = seasonal_component)) +
+  geom_line() +
+  facet_wrap(~variable, scales = "free_y")
+```
+
+<img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
+
+``` r
+trade_seas%>% 
+  filter(seasonal_component %in% c("trend", "final", "value")) %>% 
+  ggplot(aes(Mánuður, seasonal_value, color = seasonal_component)) +
+  geom_line() +
+  facet_wrap(~variable, scales = "free_y")
+```
+
+<img src="man/figures/README-unnamed-chunk-14-1.png" width="100%" />
 
 ## Dates
 

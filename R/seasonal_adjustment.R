@@ -17,35 +17,13 @@
 #' @examples
 #'
 #'
-tidy_seas <- function(x, date, frequency = 12, return = "final", ...){
+tidy_seas <- function(x, date, frequency = 12, ...){
 
   stopifnot(length(date) == length(unique(date)))
 
   ts_data <- col_to_ts(x, start = min(date), frequency = frequency)
   adjusted <- adjust(ts_data)
-  adjusted %>%
-    pluck(return)
-}
-
-
-seas_seasonally_adjusted <- function(x, date, frequency = 12, ...){
-  tidy_seas(x = x, date = date, frequency = frequency, return = "final", ...)
-}
-
-seas_seasonal_components <- function(x, date, frequency = 12, ...){
-  tidy_seas(x = x, date = date, frequency = frequency, return = "seasonal", ...)
-}
-
-seas_trend <- function(x, date, frequency = 12, ...){
-  tidy_seas(x = x, date = date, frequency = frequency, return = "trend", ...)
-}
-
-seas_irregular <- function(x, date, frequency = 12, ...){
-  tidy_seas(x = x, date = date, frequency = frequency, return = "irregular", ...)
-}
-
-seas_adjustfac <- function(x, date, frequency = 12, ...){
-  tidy_seas(x = x, date = date, frequency = frequency, return = "adjustfac", ...)
+  adjusted
 }
 
 
@@ -54,12 +32,9 @@ col_to_ts <- function(x, start, frequency){
   ts_data <- ts(x, start = start, frequency = frequency)
 }
 
-
-#'
+#' Adjust
 #' @return
-#' @import broom
 #' @import tidyverse
-#' @import lubridate
 #' @import seasonal
 #' @exportPattern ^[[:alpha:]]
 #'
@@ -72,13 +47,72 @@ adjust <- function(ts_data, ...){
     pluck("data") %>%
     as_tibble()
 }
-#
-# map_seas <- function(data, var, date){
-#   var <- enquo(var)
-#   date <- enquo(date)
-#   data %>%
-#     nest() %>%
-#     mutate(seas = map(data, ~nested_seas(., !!var, !!date))) %>%
-#     select(-data) %>%
-#     unnest(c(seas))
-# }
+
+seas_seasonally_adjusted <- function(x, date, frequency = 12, ...){
+  tidy_seas(x = x, date = date, frequency = frequency, ... ) %>%
+    pluck("final")
+}
+
+seas_seasonal_components <- function(x, date, frequency = 12, ...){
+  tidy_seas(x = x, date = date, frequency = frequency, ...) %>%
+    pluck("final")
+}
+
+seas_trend <- function(x, date, frequency = 12, ...){
+  tidy_seas(x = x, date = date, frequency = frequency, ...) %>%
+    pluck("trend")
+}
+
+seas_irregular <- function(x, date, frequency = 12, ...){
+  tidy_seas(x = x, date = date, frequency = frequency, ...) %>%
+    pluck("irregular")
+}
+
+seas_adjustfac <- function(x, date, frequency = 12, ...){
+  tidy_seas(x = x, date = date, frequency = frequency, ...) %>%
+    pluck("adjustfac")
+}
+
+
+nested_seas <- function(data, var, date, frequency = 12, ...){
+
+  var <- enquo(var)
+  date <- enquo(date)
+
+  tx <- data %>% select(!!var) %>%  pull(1)
+  date_series <- data %>% select(!!date) %>% pull(1)
+
+  tidy_seas(tx, date_series, frequency = frequency, ...)
+
+}
+
+#' Seasonal Adjustment (map)
+#'
+#' @param x
+#' @param date
+#' @param frequency
+#' @param ...
+#'
+#' @return
+#' @import broom
+#' @import tidyverse
+#' @import lubridate
+#' @import seasonal
+#' @exportPattern ^[[:alpha:]]
+#'
+#' @examples
+#'
+#'
+map_seas <- function(data, var, date){
+
+  stopifnot(NROW(data %>% count(!!date)) == NROW(data))
+
+  var <- enquo(var)
+  date <- enquo(date)
+
+  df_nested <- data %>%
+    nest(data = c(!!var,!!date)) %>%
+    mutate(seas = map(data, ~nested_seas(., !!var, !!date))) %>%
+    unnest(cols = c(data, seas)) %>%
+    gather(seasonal_component, seasonal_value, -!!date, -(!!!groups(data)))
+}

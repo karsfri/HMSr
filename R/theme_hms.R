@@ -79,7 +79,7 @@ theme_hms <- function(tms = 1){
 
   theme_gray() +
     theme(
-      text = element_text(family = "SetimoLight"),
+      text = element_text(family = "Setimo Light"),
       line = element_line(size = 0.6),
       rect = element_rect(size = 0.6),
 
@@ -89,13 +89,13 @@ theme_hms <- function(tms = 1){
       panel.grid.major.y = element_line(colour = color_extra, size = 0.04),
       panel.grid.major.x = element_blank(),
 
-      strip.text = element_text(family = "SetimoLight", size = 7 * tms, color = "black", face = "bold"),
-      strip.text.x = element_text(family = "SetimoLight", size = 7 * tms, color = "black", face = "bold"),
+      strip.text = element_text(family = "Setimo Light", size = 7 * tms, color = "black", face = "bold"),
+      strip.text.x = element_text(family = "Setimo Light", size = 7 * tms, color = "black", face = "bold"),
       strip.background = element_blank(),
 
       plot.title = element_text(family = "Setimo", size = 12 * tms, face = "bold", color = blue),
       plot.subtitle = element_text(family = "Setimo", size = 10 * tms, color = blue),
-      plot.caption = element_text(family = "SetimoLight", size = 8 * tms, color = blue, face = "italic"),
+      plot.caption = element_text(family = "Setimo Light", size = 8 * tms, color = blue, face = "italic"),
       axis.title = element_text(size = 7 * tms),
       axis.text = element_text(colour = color_extra, size = 8 * tms),
       legend.text = element_text(colour = color_extra, size = 9 * tms),
@@ -182,7 +182,7 @@ theme_set_hms <- function(theme = theme_hms(), change_palettes = TRUE){
 
   # Load fonts
   grDevices::windowsFonts(Setimo = windowsFont("Setimo"))
-  grDevices::windowsFonts(SetimoLight = windowsFont("Setimo Light"))
+  grDevices::windowsFonts(`Setimo Light` = windowsFont("Setimo Light"))
 
 
   yellow <- palette_light[1]

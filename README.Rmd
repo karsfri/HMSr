@@ -153,21 +153,10 @@ Group of functions that make X13-ARIMA seasonal adjustment easier on the fly.
 * `seas_irregular()`
 
 ```{r}
-# https://px.hagstofa.is/pxis/pxweb/is/Efnahagur/Efnahagur__utanrikisverslun__1_voruvidskipti__01_voruskipti/UTA06002.px/table/tableViewLayout1/?rxid=8966fb9b-6a92-41b6-8758-129d490bb573
 trade <- read_hagstofan_alt("https://px.hagstofa.is:443/pxis/sq/8ad42406-35c1-442b-a556-1498992b56ed")
 ```
 
-The data is different components of international trade:
-
-```{r}
-trade %>% 
-  head() %>% 
-  knitr::kable()
-```
-
-
-Seasonal adjustment for one group:
-
+The [data](https://px.hagstofa.is/pxis/pxweb/is/Efnahagur/Efnahagur__utanrikisverslun__1_voruvidskipti__01_voruskipti/UTA06002.px/table/tableViewLayout1/?rxid=8966fb9b-6a92-41b6-8758-129d490bb573) is different components of international trade:
 
 ```{r}
 trade %>%
@@ -182,6 +171,86 @@ trade %>%
   ggplot(aes(Mánuður, val, color = var)) +
   geom_line()
 ```
+
+the trend component:
+
+```{r}
+trade %>%
+  mutate(Mánuður = lubriYYYYMM(Mánuður)) %>%
+  ################# Magic :) #################################################
+  mutate(
+    `Útflutningur fob - Trend` = seas_trend(`Útflutningur fob`, Mánuður)
+    ) %>%
+  ##############################################################################
+  select(Mánuður, `Útflutningur fob`,  `Útflutningur fob - Trend` ) %>%
+  gather(var, val, -Mánuður) %>%
+  ggplot(aes(Mánuður, val, color = var)) +
+  geom_line()
+```
+
+### Many groups
+
+
+
+```{r}
+trade_long <- trade %>%
+  mutate(Mánuður = lubriYYYYMM(Mánuður)) %>%
+  gather(variable, value, -Mánuður) 
+
+trade_long %>% 
+  head() %>% 
+  knitr::kable()
+```
+
+If the data is in a *long* format or *tidy* format, make sure to group the variables in such a way that all the dates are distinct within each group:
+
+```{r}
+trade_long %>% 
+  group_by(variable) %>% 
+  mutate(trend = seas_trend(value, Mánuður)) %>% 
+  ggplot(aes(Mánuður, trend, color = variable)) +
+  geom_line()
+```
+
+Failing to do so will result in an error:
+
+```{r, error=TRUE}
+trade_long %>% 
+  # group_by(variable) %>% 
+  mutate(trend = seas_trend(value, Mánuður)) %>% 
+  ggplot(aes(Mánuður, trend, color = variable)) +
+  geom_line()
+```
+
+It is possible to get all the different components from the `seasonal::seas()` function with `map_seas()` but it's
+
+still *experimental*. It might result in unexpected behaviour if the data structure is different from this example.
+
+```{r}
+trade_seas <- trade_long %>% 
+  group_by(variable) %>% 
+  map_seas(value, Mánuður) 
+
+trade_seas%>% 
+  filter(seasonal_component %in% c("trend", "final", "value")) %>% 
+  ggplot(aes(Mánuður, seasonal_value, color = seasonal_component)) +
+  geom_line() +
+  facet_wrap(~variable, scales = "free_y")
+  
+
+```
+
+
+
+```{r}
+trade_seas%>% 
+  filter(seasonal_component %in% c("trend", "final", "value")) %>% 
+  ggplot(aes(Mánuður, seasonal_value, color = seasonal_component)) +
+  geom_line() +
+  facet_wrap(~variable, scales = "free_y")
+```
+
+
 
 ## Dates
 
