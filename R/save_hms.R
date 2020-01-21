@@ -1,4 +1,4 @@
-#' Title
+#' Save with common defaults for HMS graphcis
 #'
 #' @param filename
 #' @param plot
@@ -11,8 +11,17 @@
 #' @import magrittr
 #' @import ggplot2
 #'
-#' @return
-#' @exportPattern ^[[:alpha:]]+
+#' @export ggsave_both
+#' @export ggsave_svg
+#' @export ggsave_png
+#' @export width_narrow
+#' @export width_wide
+#' @export height_full
+#' @export height_regular
+#' @export width_wide_report
+#' @export width_narrow_report
+#' @export dpi_reg
+#' @export dpi_high
 #'
 #' @examples
 

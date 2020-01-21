@@ -65,7 +65,7 @@ economics %>%
   facet_wrap(~var, scales = "free_y")
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-setup-1.png" width="100%" />
 
 The `theme_set_hms()` function sets `theme_hms` as the default theme,
 along with default colors for some of the more popular geoms.
@@ -94,17 +94,91 @@ economics %>%
   facet_wrap(~var, scales = "free_y")
 ```
 
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+
+``` r
+  economics %>%
+    filter(date == floor_date(date, "year"), year(date) > 2000) %>%
+    gather(var, val, -date) %>%
+    ggplot(aes(date, val, fill = var)) +
+    geom_col() +
+    theme_hms() +
+    scale_color_manual(values = palette_dark) +
+    scale_y_continuous(labels = label_isl()) +
+    labs(
+      title = "Bars and stuff",
+      subtitle = "With HMS colors",
+      x = NULL,
+      y = NULL,
+      caption = "Source: None of your business :P"
+    ) +
+    facet_wrap(~var, scales = "free_y")
+```
+
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+
+``` r
+  economics %>%
+    filter(date == floor_date(date, "year"), year(date) > 2000) %>%
+    gather(var, val, -date) %>%
+    ggplot(aes(date, val, fill = var, color = var)) +
+    geom_area(alpha = 0.5, color = NA) +
+    geom_line() +
+    theme_hms() +
+    scale_color_manual(values = palette_dark) +
+    scale_y_continuous(labels = label_isl()) +
+    labs(
+      title = "Area and stuff",
+      subtitle = "With HMS colors",
+      x = NULL,
+      y = NULL,
+      caption = "Source: None of your business :P"
+    ) +
+    facet_wrap(~var, scales = "free_y")
+```
+
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 ### Palettes
 
 **WAITING FOR PERMANENT PALETTES**
 
-### Scales
+### Labels
+
+There are four functions to control the labels of the y-axis and the
+x-axis. They use comma as a decimal mark and point as a grouping mark.
+Usually they are used inside `scale_y_continous()` eða
+`scale_x_continous`, en hér eru þau sýnd inní demo\_continous sem sýnir
+bara einn ás.
+
+``` r
+scales::demo_continuous(c(0, 1000000), labels = label_isk()) 
+```
+
+    ## scale_x_continuous(labels = label_isk())
+
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+
+``` r
+scales::demo_continuous(c(0, 1000000), labels = label_isl())
+```
+
+    ## scale_x_continuous(labels = label_isl())
+
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+
+``` r
+scales::demo_continuous(c(0, 1), labels = label_percent_isl(accuracy = 0.1))
+```
+
+    ## scale_x_continuous(labels = label_percent_isl(accuracy = 0.1))
+
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
 
 ### Caption strings
 
-Strings for common sources to put in caption:
+Strings for common sources to put in caption (for use for the caption
+argument in `labs()`):
 
 ``` r
 c(
@@ -191,7 +265,7 @@ trade %>%
   geom_line()
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
 
 the trend component:
 
@@ -209,7 +283,7 @@ trade %>%
   geom_line()
 ```
 
-<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
 
 ### Many groups
 
@@ -244,7 +318,7 @@ trade_long %>%
   geom_line()
 ```
 
-<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-15-1.png" width="100%" />
 
 Failing to do so will result in an error:
 
@@ -276,7 +350,7 @@ trade_seas%>%
   facet_wrap(~variable, scales = "free_y")
 ```
 
-<img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-17-1.png" width="100%" />
 
 ``` r
 trade_seas%>% 
@@ -286,7 +360,7 @@ trade_seas%>%
   facet_wrap(~variable, scales = "free_y")
 ```
 
-<img src="man/figures/README-unnamed-chunk-14-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-18-1.png" width="100%" />
 
 ## Dates
 
@@ -345,3 +419,110 @@ lubriYYYYMM("2017M03") %>%
 | x          |
 | :--------- |
 | 2017-03-01 |
+
+## Automated graphics
+
+Here is an example of how to use a automatically updated plotting
+functions. The function *yfirverd*, found in *demo\_automation.R*,
+prints out a plot and returns the data used:
+
+``` r
+df <- yfirverd()
+```
+
+<img src="man/figures/README-unnamed-chunk-22-1.png" width="100%" />
+
+The function *yfirverd* also accepts group variables as an argument:
+
+``` r
+df_landshluti <- yfirverd(Landshluti)
+```
+
+<img src="man/figures/README-unnamed-chunk-23-1.png" width="100%" />
+
+With the argument *eftir* it’s possible to add the names of the groups
+to the title:
+
+``` r
+df3 <- yfirverd(SerbyliFjolbyli, eftir = "tegund húsnæðis")
+```
+
+<img src="man/figures/README-unnamed-chunk-24-1.png" width="100%" />
+
+To prevent the plot from printing, set *print\_plot = FALSE*. Then the
+function only returns the data used:
+
+``` r
+yfirverd(print_plot = FALSE, Landshluti) %>% 
+  head() %>% 
+  knitr::kable()
+```
+
+| timi       | Landshluti       | var                          |       val |
+| :--------- | :--------------- | :--------------------------- | --------: |
+| 2013-01-01 | Austurland       | Selt yfir auglýstu söluverði |        NA |
+| 2013-01-01 | Höfuðborgarsvæði | Selt yfir auglýstu söluverði |        NA |
+| 2013-01-01 | Norðausturland   | Selt yfir auglýstu söluverði | 4.0000000 |
+| 2013-01-01 | Norðvesturland   | Selt yfir auglýstu söluverði | 3.6666667 |
+| 2013-01-01 | Suðurland        | Selt yfir auglýstu söluverði | 0.3333333 |
+| 2013-01-01 | Suðurnes         | Selt yfir auglýstu söluverði | 0.3333333 |
+
+This can be helpful, e.g. when making a custumized plot or make further
+calculations. It’s also possible to use *plot\_yfirverd* to get the plot
+object, but without facets, for better custumizations:
+
+``` r
+yfirverd(Landshluti, print_plot = FALSE) %>% 
+  plot_yfirverd(title = "This is a title") +
+  facet_wrap(~Landshluti, ncol = 2)
+```
+
+<img src="man/figures/README-unnamed-chunk-26-1.png" width="100%" /> or:
+
+``` r
+windowsFonts(Chiller = windowsFont("Chiller"))
+
+
+yfirverd(Landshluti, print_plot = FALSE) %>% 
+  plot_yfirverd(title = "This is a title") +
+  facet_wrap(~Landshluti, ncol = 2) +
+  scale_fill_viridis_d(option = "C") + 
+  theme(
+    text = element_text(family = "Chiller"),
+    plot.title = element_text(family = "Chiller"),
+    plot.subtitle = element_text(family = "Chiller"),
+    strip.text = element_text(family = "Chiller"),
+    strip.text.x = element_text(family = "Chiller"),
+    plot.caption = element_text(family = "Chiller"),
+    )
+```
+
+<img src="man/figures/README-unnamed-chunk-27-1.png" width="100%" />
+
+You can add filters to the data with the *filters* argument, but the
+filters need to be enclosed in a *quos* function call for it to work.
+
+``` r
+df3 <- yfirverd(
+  SerbyliFjolbyli, 
+  eftir = "tegund húsnæðis", 
+  filters = quos(
+    SerbyliFjolbyli != "Annað", 
+    SerbyliFjolbyli != "Sérhæft íbúðarhúsnæði")
+  )
+```
+
+<img src="man/figures/README-unnamed-chunk-28-1.png" width="100%" />
+
+## Saving the graphs
+
+The *save\_both* function from *theme\_hms* is a wrapper for *ggsave*
+and saves the last plot, both as *svg* and as a *png* at a specified
+size.
+
+``` r
+# ggsave_both("yfir")
+```
+
+Finally, the function *yfirverd\_get\_data* shows the data that the
+function *yfirverd* gets from the datawarehouse.

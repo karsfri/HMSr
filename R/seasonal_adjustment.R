@@ -12,7 +12,9 @@
 #' @import tidyverse
 #' @import lubridate
 #' @import seasonal
-#' @exportPattern ^[[:alpha:]]
+#' @export tidy_seas
+#' @export nested_seas
+#' @exportPattern "seas_"
 #'
 #' @examples
 #'
@@ -36,7 +38,8 @@ col_to_ts <- function(x, start, frequency){
 #' @return
 #' @import tidyverse
 #' @import seasonal
-#' @exportPattern ^[[:alpha:]]
+#' @export adjust
+#' @exportPattern "seas_"
 #'
 #' @examples
 #'
@@ -73,7 +76,19 @@ seas_adjustfac <- function(x, date, frequency = 12, ...){
     pluck("adjustfac")
 }
 
-
+#' Seasonal Adjustment (map)
+#'
+#' @param x
+#' @param date
+#' @param frequency
+#' @param ...
+#'
+#' @return
+#' @import tidyverse
+#' @import lubridate
+#' @import seasonal
+#'
+#'
 nested_seas <- function(data, var, date, frequency = 12, ...){
 
   var <- enquo(var)
@@ -98,17 +113,18 @@ nested_seas <- function(data, var, date, frequency = 12, ...){
 #' @import tidyverse
 #' @import lubridate
 #' @import seasonal
-#' @exportPattern ^[[:alpha:]]
+#' @export map_seas
 #'
 #' @examples
 #'
 #'
 map_seas <- function(data, var, date){
 
-  stopifnot(NROW(data %>% count(!!date)) == NROW(data))
 
   var <- enquo(var)
   date <- enquo(date)
+
+  stopifnot(NROW(data %>% count(!!date)) == NROW(data))
 
   df_nested <- data %>%
     nest(data = c(!!var,!!date)) %>%
@@ -116,3 +132,5 @@ map_seas <- function(data, var, date){
     unnest(cols = c(data, seas)) %>%
     gather(seasonal_component, seasonal_value, -!!date, -(!!!groups(data)))
 }
+
+

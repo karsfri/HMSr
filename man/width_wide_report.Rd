@@ -3,15 +3,12 @@
 \docType{data}
 \name{width_wide_report}
 \alias{width_wide_report}
-\title{Title}
+\title{Save with common defaults for HMS graphcis}
 \format{An object of class \code{numeric} of length 1.}
 \usage{
 width_wide_report
 }
-\value{
-
-}
 \description{
-Title
+Save with common defaults for HMS graphcis
 }
 \keyword{datasets}

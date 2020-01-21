@@ -8,7 +8,9 @@
 #' @import lubridate
 #'
 #' @return
-#' @exportPattern ^[[:alpha:]]
+#' @export string_to_date
+#' @export int_to_double
+#' @export sql_clean
 #'
 #' @examples
 #'

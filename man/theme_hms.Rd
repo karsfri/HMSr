@@ -2,13 +2,28 @@
 % Please edit documentation in R/theme_hms.R
 \name{theme_hms}
 \alias{theme_hms}
-\title{theme}
+\title{Theme for [HMS](https://www.hms.is/)}
 \usage{
-theme_hms(tms = 1)
+theme_hms(fsm = 1)
+}
+\arguments{
+\item{fsm}{Font Size Multiplier}
 }
 \value{
-
+theme
 }
 \description{
-theme
+Theme for [HMS](https://www.hms.is/)
+}
+\examples{
+
+cars \%>\%
+ggplot(aes(speed, dist), fill = blue) +
+ geom_col() +
+ labs(
+   title = "Some title",
+   subtitle = "Some subtitle",
+   caption = "Some caption"
+ ) +
+ theme_hms()
 }

@@ -4,10 +4,23 @@
 \alias{yfirverd}
 \title{Title}
 \usage{
-yfirverd(connection, ..., print_plot = TRUE, eftir = NULL, filters = NULL)
+yfirverd(
+  ...,
+  connection = get_connection_windows(),
+  print_plot = TRUE,
+  eftir = NULL,
+  filters = NULL
+)
+}
+\arguments{
+\item{...}{Grouping variables (unquoted), used for faceting}
+
+\item{connection}{A connection to the HMS database}
+
+\item{eftir}{Name of the groups to include in the title}
 }
 \value{
-
+The data data used for the plot.
 }
 \description{
 Title

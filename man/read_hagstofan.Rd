@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_hagstofan.R
 \name{read_hagstofan}
 \alias{read_hagstofan}
-\title{read_hagstofan}
+\title{Read data from Hagstofa Íslands (Statistics Iceland)}
 \usage{
 read_hagstofan(
   file,
@@ -21,7 +21,7 @@ read_hagstofan(
 
 }
 \description{
-read_hagstofan
+Read data from Hagstofa Íslands (Statistics Iceland)
 }
 \examples{
 

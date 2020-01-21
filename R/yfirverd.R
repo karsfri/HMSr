@@ -2,24 +2,27 @@
 
 #' Title
 #'
-#' @param connection
-#' @param ...
+#' @param connection A connection to the HMS database
+#' @param ... Grouping variables (unquoted), used for faceting
 #' @param print_plot
-#' @param eftir
+#' @param eftir Name of the groups to include in the title
 #' @param filters
 #' @import tidyverse
 #' @import lubridate
 #' @import glue
 #'
-#' @return
-#' @export
+#' @return The data data used for the plot.
+#' @export yfirverd
+#' @export yfirverd_get_data
+#' @export plot_yfirverd
 #'
 #' @examples
-yfirverd <- function(connection, ..., print_plot = TRUE, eftir = NULL, filters = NULL){
+yfirverd <- function(..., connection = get_connection_windows(), print_plot = TRUE, eftir = NULL, filters = NULL){
   df <- yfirverd_get_data(connection = connection)
   if(NROW(df) == 0) stop("0 rows returned from DB")
 
   my_groups <- enquos(...)
+  number_of_grouping_variables <- length(my_groups)
 
   df2 <- df %>%
     sql_clean() %>%
@@ -54,14 +57,91 @@ yfirverd <- function(connection, ..., print_plot = TRUE, eftir = NULL, filters =
 
 
   if(print_plot) {
-    p <- plot_yfirverd(df2, title = title) +
-      facet_wrap(facets = vars(!!!my_groups))
+
+    # p <- plot_yfirverd(df2, title = title) +
+    #   facet_wrap(facets = vars(!!!my_groups))
+
+    # only use facets if there is a grooping variable
+    if(number_of_grouping_variables == 0){
+      p <- plot_yfirverd(df2, title = title)
+    } else {
+      p <- plot_yfirverd(df2, title = title) +
+        facet_wrap(facets = vars(!!!my_groups))
+    }
 
     print(p)
   }
 
   return(df2)
 
+}
+
+
+yfirverd_get_data <- function(connection = get_connection_windows()){
+
+  # sql script
+  query_yfirverd <- "SELECT
+        [Dim_Timi_Utgefid]
+        ,[Dim_Timi_Thinglyst]
+        ,[Dim_Fasteignir]
+        ,[Faerslunumer]
+        ,[Kaupverd]
+        ,[Kaupverd_nuvirdi]
+        ,[FjoldiFasteigna]
+        ,[FjoldiMatseininga]
+        ,[OnothaefurSamningur]
+        ,[AuglystDags]
+        ,[AuglystSoluverd]
+        ,[Landshluti]
+        ,[Landshlutaflokkun]
+        ,[HofudborgLandsbyggd]
+        ,[SerbyliFjolbyli]
+        ,[FjoldiHerbergja]
+        ,[SeltYfirAuglystuSoluverdi]
+        ,[SeltAAuglystuSoluverdi]
+        ,[SeltUndirAuglystuSoluverdi]
+        ,f.[LOAD_DATE]
+        ,f.[RECORD_SOURCE]
+        ,f.[ETL_ID]
+    FROM
+      [HgrDwh].[dwh].[Fact_Kaupsamningar_Stakar] f
+          INNER JOIN dwh.Dim_Timi dtim
+              ON f.Dim_Timi_Utgefid = dim_timi_sk
+          JOIN dwh.Dim_Fasteignir dfst
+  		    ON f.Dim_Fasteignir = dfst.Dim_Fasteignir_sk
+   WHERE
+      dtim.ar > 2012
+  ORDER BY
+   Dim_Timi_Utgefid ASC"
+
+  df <- dbGetQuery(connection, query_yfirverd)
+  df %>% as_tibble()
+}
+
+#' Title
+#'
+#' @param df
+#' @param title
+#' @import tidyverse
+#' @return
+#' @export plot_yfirverd
+#'
+#' @examples
+plot_yfirverd <- function(df, title = NULL){
+
+  df %>%
+    ggplot(aes(x = timi, y = val, fill = var)) +
+    geom_area(position = position_fill()) +
+    scale_y_continuous(labels = scales::percent_format()) +
+    scale_fill_manual(values = palette_hms_darker) +
+    labs(
+      y = NULL,
+      x = NULL,
+      title = title,
+      subtitle = "-3ja mánaða hlaupandi meðaltal",
+      caption = "Heimild: Þjóðskrá Íslands, Fasteignaleit, hagdeild HMS"
+    ) +
+    theme_hms()
 }
 
 

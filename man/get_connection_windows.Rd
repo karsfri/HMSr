@@ -4,10 +4,13 @@
 \alias{get_connection_windows}
 \title{get_connection_windows}
 \usage{
-get_connection_windows(db = c("HgrDwh_Prod", "HgrDev"))
+get_connection_windows(db = "HgrDwh_Prod")
+}
+\arguments{
+\item{db}{Name of the dsn, either "HgrDwh_Prod" or "HgrDev"}
 }
 \value{
-
+a connection to the HMS database
 }
 \description{
 get_connection_windows

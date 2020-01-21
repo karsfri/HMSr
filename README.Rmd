@@ -51,7 +51,7 @@ remotes::install_github("karsfri/HMSr")
 
 The default template in ggplot2 is readable, but ugly:
 
-```{r}
+```{r setup}
 library(tidyverse)
 library(patchwork)
 library(lubridate)
@@ -102,17 +102,68 @@ economics %>%
   facet_wrap(~var, scales = "free_y")
 ```
 
+```{r}
+  economics %>%
+    filter(date == floor_date(date, "year"), year(date) > 2000) %>%
+    gather(var, val, -date) %>%
+    ggplot(aes(date, val, fill = var)) +
+    geom_col() +
+    theme_hms() +
+    scale_color_manual(values = palette_dark) +
+    scale_y_continuous(labels = label_isl()) +
+    labs(
+      title = "Bars and stuff",
+      subtitle = "With HMS colors",
+      x = NULL,
+      y = NULL,
+      caption = "Source: None of your business :P"
+    ) +
+    facet_wrap(~var, scales = "free_y")
+```
+
+```{r}
+  economics %>%
+    filter(date == floor_date(date, "year"), year(date) > 2000) %>%
+    gather(var, val, -date) %>%
+    ggplot(aes(date, val, fill = var, color = var)) +
+    geom_area(alpha = 0.5, color = NA) +
+    geom_line() +
+    theme_hms() +
+    scale_color_manual(values = palette_dark) +
+    scale_y_continuous(labels = label_isl()) +
+    labs(
+      title = "Area and stuff",
+      subtitle = "With HMS colors",
+      x = NULL,
+      y = NULL,
+      caption = "Source: None of your business :P"
+    ) +
+    facet_wrap(~var, scales = "free_y")
+```
+
+
 ### Palettes
 
 **WAITING FOR PERMANENT PALETTES**
 
-### Scales
+### Labels
 
+There are four functions to control the labels of the y-axis and the x-axis. They use comma as a decimal mark and point as a grouping mark. Usually they are used inside `scale_y_continous()` eða `scale_x_continous`, en hér eru þau sýnd inní demo_continous sem sýnir bara einn ás.
 
+```{r}
+scales::demo_continuous(c(0, 1000000), labels = label_isk()) 
+```
+```{r}
+scales::demo_continuous(c(0, 1000000), labels = label_isl())
+```
+
+```{r}
+scales::demo_continuous(c(0, 1), labels = label_percent_isl(accuracy = 0.1))
+```
 
 ### Caption strings
 
-Strings for common sources to put in caption:
+Strings for common sources to put in caption (for use for the caption argument in `labs()`):
   
   ```{r}
 c(
@@ -281,3 +332,83 @@ lubriYYYYMM("2017M03") %>%
   knitr::kable()
 ```
 
+## Automated graphics
+
+Here is an example of how to use a automatically updated plotting functions. The function *yfirverd*, found in *demo_automation.R*, prints out a plot and returns the data used:
+
+```{r}
+df <- yfirverd()
+```
+
+The function *yfirverd* also accepts group variables as an argument:
+
+```{r}
+df_landshluti <- yfirverd(Landshluti)
+```
+
+With the argument *eftir* it's possible to add the names of the groups to the title:
+
+```{r}
+df3 <- yfirverd(SerbyliFjolbyli, eftir = "tegund húsnæðis")
+
+```
+
+
+To prevent the plot from printing, set *print_plot = FALSE*. Then the function only returns the data used:
+
+```{r}
+yfirverd(print_plot = FALSE, Landshluti) %>% 
+  head() %>% 
+  knitr::kable()
+
+```
+
+This can be helpful, e.g. when making a custumized plot or make further calculations. It's also possible to use *plot_yfirverd* to get the plot object, but without facets, for better custumizations:
+
+```{r}
+yfirverd(Landshluti, print_plot = FALSE) %>% 
+  plot_yfirverd(title = "This is a title") +
+  facet_wrap(~Landshluti, ncol = 2)
+```
+or:
+
+```{r}
+windowsFonts(Chiller = windowsFont("Chiller"))
+
+
+yfirverd(Landshluti, print_plot = FALSE) %>% 
+  plot_yfirverd(title = "This is a title") +
+  facet_wrap(~Landshluti, ncol = 2) +
+  scale_fill_viridis_d(option = "C") + 
+  theme(
+    text = element_text(family = "Chiller"),
+    plot.title = element_text(family = "Chiller"),
+    plot.subtitle = element_text(family = "Chiller"),
+    strip.text = element_text(family = "Chiller"),
+    strip.text.x = element_text(family = "Chiller"),
+    plot.caption = element_text(family = "Chiller"),
+    )
+```
+
+You can add filters to the data with the *filters* argument, but the filters need to be enclosed in a *quos* function call for it to work.
+
+```{r}
+df3 <- yfirverd(
+  SerbyliFjolbyli, 
+  eftir = "tegund húsnæðis", 
+  filters = quos(
+    SerbyliFjolbyli != "Annað", 
+    SerbyliFjolbyli != "Sérhæft íbúðarhúsnæði")
+  )
+
+```
+
+## Saving the graphs
+
+The *save_both* function from *theme_hms* is a wrapper for *ggsave* and saves the last plot, both as *svg* and as a *png* at a specified size.
+
+```{r}
+# ggsave_both("yfir")
+```
+
+Finally, the function *yfirverd_get_data* shows the data that the function *yfirverd* gets from the datawarehouse. 

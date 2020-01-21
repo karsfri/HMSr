@@ -1,7 +1,7 @@
 
 # read functions ----------------------------------------------------------
 
-#' read_hagstofan
+#' Read data from Hagstofa Íslands (Statistics Iceland)
 #'
 #' @param file
 #' @param na
@@ -12,8 +12,8 @@
 #' @param ...
 #'
 #' @return
-#' @exportPattern ^[[:alpha:]]
-#'
+#' @export read_hagstofan
+#' @export read_hagstofan_alt
 #' @examples
 #'
 read_hagstofan <- function(

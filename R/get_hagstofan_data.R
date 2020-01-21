@@ -1,11 +1,11 @@
 #' Title
 #'
 #' @return
-#' @exportPattern ^[[:alpha:]]
 #' @import lubridate
 #' @import tidyverse
+#' @export get_visitala_launa
 #'
-#' @examples
+#' @examplse
 get_visitala_launa <- function(){
   read_hagstofan(
     "https://px.hagstofa.is:443/pxis/sq/ca030daf-96e0-4e07-bbab-586a9beb0d0e",
