@@ -64,11 +64,23 @@ theme_hms <- function(fsm = 1){
 
 # Plot helper functions ---------------------------------------------------
 
-theme_vertical_x <- ggplot2::theme(
-  axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.4, hjust = 1)
-)
 
 
+
+#' Title
+#'
+#' @param color
+#' @param ...
+#'
+#' @return
+#' @export theme_flip
+#' @export theme_vertical_x
+#' @export guides_off
+#' @export flip
+#' @export geom_zero_line
+#' @export legend_right
+#'
+#' @examples
 theme_flip <- function(color = gray, ...){
   theme(
     panel.grid.major.x = element_line(color = color, ...),
@@ -77,6 +89,9 @@ theme_flip <- function(color = gray, ...){
   )
 }
 
+theme_vertical_x <- ggplot2::theme(
+  axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.4, hjust = 1)
+)
 
 
 guides_off  <- function(){

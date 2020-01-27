@@ -150,14 +150,14 @@ economics %>%
 
 There are four functions to control the labels of the y-axis and the x-axis. They use comma as a decimal mark and point as a grouping mark. Usually they are used inside `scale_y_continous()` eða `scale_x_continous`, en hér eru þau sýnd inní demo_continous sem sýnir bara einn ás.
 
-```{r}
+```{r,fig.height=1.5}
 scales::demo_continuous(c(0, 1000000), labels = label_isk()) 
 ```
-```{r}
+```{r,fig.height=1.5}
 scales::demo_continuous(c(0, 1000000), labels = label_isl())
 ```
 
-```{r}
+```{r,fig.height=1.5}
 scales::demo_continuous(c(0, 1), labels = label_percent_isl(accuracy = 0.1))
 ```
 

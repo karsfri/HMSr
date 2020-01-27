@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+
+<html>
+	<head>
+		
+		$for(header-includes)$
+			$header-includes$
+		$endfor$
+		
+		<title>Intellecon ehf</title>
+		<link rel="stylesheet" type="text/css" href="monthly_report.css">
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="pandoc" />
+		
+		<style>
+			@import url('https://fonts.googleapis.com/css?family=Asap+Condensed&display=swap');
+		</style>
+		
+		<style>
+			@import url('https://fonts.googleapis.com/css?family=Asap+Condensed|Roboto&display=swap');
+		</style>
+
+	</head>
+	
+	
+	<body>
+		<div class = grid-container>
+			<header id = "main-header">
+				<div class= "container">
+					<h1 class="title toc-ignore", id = "title">$title$</h1>
+				</div>					
+				<div class= "container">
+					<h3 class="title toc-ignore", id = "subtitle">$subtitle$</h3>
+				</div>
+			</header>
+			
+			<nav>
+				<div class = "sticky">
+					<div id=toc class = "toc-container">	
+						<h3>Efnisyfirlit</h3>					
+						<toc>$toc$</toc>
+					</div>	
+				</div>				
+			</nav>
+			
+			<main>
+				<div class="container-fluid main-container">
+					$body$
+				</div>
+			</main>
+			
+			<notes id = "notes">
+				<div class= "container">
+					<footnote class="footnote toc-ignore", id = "footnote">$footnotes$</footnote>
+				</div>					
+			</notes>
+			
+			<footer id = "main-footer">
+				<div class= "container">
+					<h1 class="footer toc-ignore", id = "footer">Intellecon ehf</h1>
+				</div>					
+			</footer>
+		</div>
+		
+		<script>
+			// add bootstrap table styles to pandoc tables
+			function bootstrapStylePandocTables() {
+			  $$('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+			}
+			$$(document).ready(function () {
+			  bootstrapStylePandocTables();
+			});
+
+			$if(kable-scroll)$
+			$$(document).ready(function () {
+			  $$('.knitsql-table').addClass('kable-table');
+			  var container = $$('.kable-table');
+			  container.each(function() {
+
+				// move the caption out of the table
+				var table = $$(this).children('table');
+				var caption = table.children('caption').detach();
+				caption.insertBefore($$(this)).css('display', 'inherit');
+			  });
+			});
+			$endif$
+
+		</script>
+		
+		
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$$(document).ready(function () {
+  window.buildTabsets("$idprefix$TOC");
+});
+
+$$(document).ready(function () {
+  $$('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $$(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+		
+		$if(mathjax-url)$
+			<!-- dynamically load mathjax for compatibility with self-contained -->
+			<script>
+			  (function () {
+				var script = document.createElement("script");
+				script.type = "text/javascript";
+				script.src  = "$mathjax-url$";
+				document.getElementsByTagName("head")[0].appendChild(script);
+			  })();
+			</script>
+		$endif$
+	</body>
+</html>

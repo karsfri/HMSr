@@ -1,0 +1,55 @@
+---
+title: "Skýrsla hagdeildar HMS"
+author: "Hagdeild hms"
+date: "The Date"
+output:
+  html_document:
+    css: monthly_report.css
+    fig_caption: yes
+    number_sections: yes
+    template: montly_report_structure.html
+    toc: yes
+    toc_depth: 2
+    toc_float:
+      collapsed: yes
+  pagedown::chrome_print:
+    toc: true
+    number_sections: false
+---
+
+```{r setup, include=FALSE}
+# set template
+library(HMSr)
+library(tidyverse)
+library(lubridate)
+# library(here)
+# library(readxl)
+# library(patchwork)
+
+# Override the default theme and colors for the ggplot
+theme_set_hms()
+
+# For the icelandic names of the months :)
+Sys.setenv(LANGUAGE="is")
+Sys.setlocale("LC_TIME", "Icelandic")
+
+# Set echo = TRUE to show the code
+knitr::opts_chunk$set(
+	echo = FALSE,
+	fig.width = 18/2.54,
+	message = FALSE,
+	warning = FALSE,
+	include = TRUE,
+	dpi = 300,
+	dev.args=list(bg="white")
+)
+```
+
+# Fyrirsögn 1
+
+Texti
+
+```{r}
+# R kóði
+```
+

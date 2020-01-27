@@ -1,8 +1,5 @@
 ---
-title: "demo_automation"
-author: "Kári"
-date: "2020-01-21"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE,echo=FALSE}

@@ -12,6 +12,7 @@
 #' @param ...
 #'
 #' @return
+#' @import tidyverse
 #' @export read_hagstofan
 #' @export read_hagstofan_alt
 #' @examples
@@ -25,11 +26,11 @@ read_hagstofan <- function(
   delim = ";",
   ...
 ){
-  read_delim(
+  readr::read_delim(
     file = file,
     delim = delim,
     na = na,
-    locale = locale(
+    locale = readr::locale(
       encoding = encoding,
       decimal_mark = decimal_mark,
       grouping_mark = grouping_mark
@@ -38,7 +39,22 @@ read_hagstofan <- function(
   )
 }
 
-
+#' Read data from Hagstofa Íslands (Statistics Iceland)
+#' @description
+#' The same as read_hagstofan, but with dots as decimal marks.
+#' @param file
+#' @param na
+#' @param encoding
+#' @param decimal_mark
+#' @param grouping_mark
+#' @param delim
+#' @param ...
+#'
+#' @return
+#' @import tidyverse
+#' @export read_hagstofan
+#' @export read_hagstofan_alt
+#' @examples
 read_hagstofan_alt <- function(
   file,
   na = "..",
@@ -48,11 +64,11 @@ read_hagstofan_alt <- function(
   delim = ";",
   ...
 ){
-  read_delim(
+  readr::read_delim(
     file = file,
     delim = delim,
     na = na,
-    locale = locale(
+    locale = readr::locale(
       encoding = encoding,
       decimal_mark = decimal_mark,
       grouping_mark = grouping_mark
