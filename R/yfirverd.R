@@ -80,16 +80,17 @@ yfirverd <- function(..., connection = get_connection_windows(), print_plot = TR
 yfirverd_get_data <- function(connection = get_connection_windows()){
 
   # sql script
+  # Needed to take out Faerslunumer, kaupverd_nuvirdi and OnothaefurSamningur because of changes in the datawarehouse
   query_yfirverd <- "SELECT
         [Dim_Timi_Utgefid]
         ,[Dim_Timi_Thinglyst]
         ,[Dim_Fasteignir]
-        ,[Faerslunumer]
+
         ,[Kaupverd]
-        ,[Kaupverd_nuvirdi]
+
         ,[FjoldiFasteigna]
         ,[FjoldiMatseininga]
-        ,[OnothaefurSamningur]
+
         ,[AuglystDags]
         ,[AuglystSoluverd]
         ,[Landshluti]
