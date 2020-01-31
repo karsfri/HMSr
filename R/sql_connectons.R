@@ -4,7 +4,6 @@
 #' @param db Name of the dsn, either "HgrDwh_Prod" or "HgrDev"
 #' @import odbc
 #' @import DBI
-#' @import RJDBC
 #' @export get_connection_windows
 #' @export
 #' @export
