@@ -21,12 +21,14 @@
 
 
 theme_hms <- function(fsm = 1){
-  grDevices::windowsFonts(Setimo = windowsFont("Setimo"))
-  grDevices::windowsFonts(`Setimo Light` = windowsFont("Setimo Light"))
+  #grDevices::windowsFonts(Setimo = windowsFont("Setimo"))
+  #grDevices::windowsFonts(`Setimo Light` = windowsFont("Setimo Light"))
+
+  fontVal <- "Helvetica"
 
   theme_gray() +
     theme(
-      text = element_text(family = "Setimo Light"),
+      text = element_text(family = fontVal),
       line = element_line(size = 0.6),
       rect = element_rect(size = 0.6),
 
@@ -36,13 +38,13 @@ theme_hms <- function(fsm = 1){
       panel.grid.major.y = element_line(colour = color_extra, size = 0.04),
       panel.grid.major.x = element_blank(),
 
-      strip.text = element_text(family = "Setimo Light", size = 7 * fsm, color = "black", face = "bold"),
-      strip.text.x = element_text(family = "Setimo Light", size = 7 * fsm, color = "black", face = "bold"),
+      strip.text = element_text(family = fontVal, size = 7 * fsm, color = "black", face = "bold"),
+      strip.text.x = element_text(family = fontVal, size = 7 * fsm, color = "black", face = "bold"),
       strip.background = element_blank(),
 
-      plot.title = element_text(family = "Setimo", size = 12 * fsm, face = "bold", color = blue),
-      plot.subtitle = element_text(family = "Setimo", size = 10 * fsm, color = blue),
-      plot.caption = element_text(family = "Setimo Light", size = 8 * fsm, color = blue, face = "italic"),
+      plot.title = element_text(family = fontVal, size = 12 * fsm, face = "bold", color = blue),
+      plot.subtitle = element_text(family = fontVal, size = 10 * fsm, color = blue),
+      plot.caption = element_text(family = fontVal, size = 8 * fsm, color = blue, face = "italic"),
       axis.title = element_text(size = 7 * fsm),
       axis.text = element_text(colour = color_extra, size = 8 * fsm),
       legend.text = element_text(colour = color_extra, size = 9 * fsm),
@@ -145,9 +147,8 @@ theme_set_hms <- function(theme = theme_hms(), overwrite_default_palette = TRUE)
   ggplot2::theme_set(theme)
 
   # Load fonts
-  grDevices::windowsFonts(Setimo = windowsFont("Setimo"))
-  grDevices::windowsFonts(`Setimo Light` = windowsFont("Setimo Light"))
-
+  #grDevices::windowsFonts(Setimo = windowsFont("Setimo"))
+  #grDevices::windowsFonts(`Setimo Light` = windowsFont("Setimo Light"))
 
   yellow <- palette_light[1]
   yellow_dark <- palette_dark[1]
