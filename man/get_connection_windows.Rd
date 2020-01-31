@@ -15,3 +15,6 @@ a connection to the HMS database
 \description{
 get_connection_windows
 }
+\examples{
+get_connection_windows()
+}
