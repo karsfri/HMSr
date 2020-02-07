@@ -49,3 +49,26 @@ get_connection_JDBC <- function(dbhost = "sql02", dbname="HgrDwh",dbcp="D:/R/Dri
   conn <- dbConnect(drv, url=sprintf("jdbc:sqlserver://%s;DatabaseName=%s",dbhost,dbname), user=user, password=password)
   return (conn)
 }
+
+
+#' Access specific table from the datawarehouse.
+#'
+#' Thin wrapper around tbl from dbplyr. Allows the user to use some of the common
+#' dplyr function on an object without importing it to R.
+#'
+#' @param tbl Name of the table in the datawarehouse
+#' @param con Connection to the datawarehouse
+#' @param schema
+#'
+#' @return tbl object to use with warehouse. See https://dbplyr.tidyverse.org/
+#' @importFrom dplyr tbl
+#' @export get_tbl
+#'
+#' @examples visitolur <- get_tbl(Fact_Visitolur)
+#'
+#' visitolur %>%
+#'   filter(dim_visitolur == 3) %>%
+#'   collect()
+get_tbl <- function(tbl, con = get_connection_windows(), schema = "dwh"){
+  tbl(con, dbplyr::in_schema("dwh", tbl))
+}

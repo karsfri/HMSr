@@ -19,7 +19,7 @@ library(tidyverse)
 blue <- "#11223a"
 red <- "#ff5028"
 color_main <- "#11223a"
-color_extra <- "#11223a"
+color_extra <- "#4e5a68"
 
 
 # we really need more colors. This is mixture of the new and the old palette

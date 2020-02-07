@@ -45,7 +45,7 @@ theme_hms <- function(fsm = 1){
       plot.caption = element_text(family = "Setimo Light", size = 8 * fsm, color = blue, face = "italic"),
       axis.title = element_text(size = 7 * fsm),
       axis.text = element_text(colour = color_extra, size = 8 * fsm),
-      legend.text = element_text(colour = color_extra, size = 9 * fsm),
+      legend.text = element_text(colour = color_extra, size = 7 * fsm),
       plot.title.position = "plot",
       # axis.text.x = element_blank(),
 
