@@ -17,9 +17,13 @@ Imports:
     here,
     svglite,
     glue,
+<<<<<<< HEAD
     colorspace,
     magrittr,
     dbplyr
+=======
+    odbc
+>>>>>>> cb13fae17fd7e1c76b47ee192822f302a6e1be3f
 RoxygenNote: 7.0.2
 Remotes: 
     tidyverse/ggplot2

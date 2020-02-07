@@ -6,6 +6,8 @@ library(tidyverse)
 #' @import magrittr
 #' @export blue
 #' @export red
+#' @export color_main
+#' @export color_extra
 #' @export palette_light
 #' @export palette_medium
 #' @export palette_dark
