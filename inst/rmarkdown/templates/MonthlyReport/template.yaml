@@ -1,0 +1,4 @@
+name: MonthlyReportTemplate
+description: >
+   Template for the monthly report
+create_dir: TRUE

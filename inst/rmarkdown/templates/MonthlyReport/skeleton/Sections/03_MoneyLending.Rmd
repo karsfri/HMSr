@@ -1,0 +1,28 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+
+<!-- Latex to add in Unique header for this section-->
+\fancyhf{}
+\lhead{\color{HMSBlue}\Huge\textbf{Lánamarkaður}}
+\chead{}
+\rhead{\setlength{\unitlength}{1mm}
+  \begin{picture}(46,0)
+    \put(0,0){\includegraphics[scale=0.07]{D:/Code/HMS_DS/HMS_Economics/Reports/LaTeXSettings/Images/HMS_Blue_Crop.png}}
+  \end{picture}}
+\renewcommand{\headrulewidth}{3pt} 
+\renewcommand{\headrule}{\hbox to\headwidth{\color{HMSBlue}\leaders\hrule height \headrulewidth\hfill}}
+\cfoot{}
+\rfoot{\thepage}
+<!-- ------------------------------------------- -->
+
+
+# Title 
+
+
+```{r}
+
+
+```
