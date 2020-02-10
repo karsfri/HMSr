@@ -20,10 +20,59 @@ get_visitala_launa <- function(){
     select(Gildi, timi, Vísitala)
 }
 
+#' @import pxweb
 #' @export get_vnv
-get_vnv <- function(link = "https://px.hagstofa.is:443/pxis/sq/8a441d5e-3081-4f41-90df-f6963f47c5a4"){
-  vnv <- read_hagstofan_alt(link) %>%
-    rename(vnv = 3) %>%
+get_vnv <- function(){
+
+  vnv_query <- '
+    {
+      "query": [
+        {
+          "code": "Ár",
+          "selection": {
+            "filter": "all",
+            "values": ["*"]
+          }
+        },
+        {
+          "code": "Mánuður",
+          "selection": {
+            "filter": "item",
+            "values": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]
+          }
+        },
+        {
+          "code": "Vísitala",
+          "selection": {
+            "filter": "item",
+            "values": ["0"]
+          }
+        },
+        {
+          "code": "Breytingar",
+          "selection": {
+            "filter": "item",
+            "values": ["0"]
+          }
+        }
+      ],
+      "response": {
+        "format": "json"
+      }
+    } '
+
+  px_data <-
+    pxweb::pxweb_get(url = "http://px.hagstofa.is//pxis/api/v1/is/Efnahagur/visitolur/1_visitalaneysluverds/1_neysluverd/VIS01000.px",
+              query = vnv_query,
+              verbose = FALSE
+              )
+
+  vnv <-
+    suppressWarnings(
+      as.data.frame(px_data, stringsAsFactors = FALSE)
+    ) %>%
+    as_tibble() %>%
+    rename(vnv = 5) %>%
     mutate(
       timi = lubriyear(Ár, Mánuður),
       vnv = as.double(vnv)
@@ -45,3 +94,7 @@ get_vnv_annual <- function(link = "https://px.hagstofa.is:443/pxis/sq/db2e94a5-e
     select(timi, vnv) %>%
     drop_na()
 }
+
+
+
+
