@@ -33,7 +33,7 @@ cpi_adjust <- function(df, vars, timevar, at_date = NULL){
     at_date <- max(vnv$timi)
   }
 
-  message(glue::glue("Selected columns set at {date_used} price levels"))
+  message(glue::glue("Selected columns set at {at_date} price levels"))
 
   # price level at given time
   price_level <- vnv %>%
