@@ -26,34 +26,30 @@ color_extra <- "#4e5a68"
 
 # we really need more colors. This is mixture of the new and the old palette
 palette_light <- c(
-  "#11223a", # blue - main color
-  "#8cc0c6", # hms2
-  "#b3cfd1", # hms3
-  "#b39271", # hms extra 1
-  "#00aec7", # hms extra 2
-  "#EC8865", # old
-  "#C56BA4"  # old
+  "#11223a",
+  "#8cc0c6",
+  "#B44C3D",
+  "#E4CD63",
+  "#57967C",
+  "#6D7988",
+  "#C3C5B5",
+  "#b39271",
+  "#E5B860",
+  "#325C7E",
+  "#B64B6A"
 )
 
-palette_medium <- c(
-  "#11223a", # blue - main color
-  "#8cc0c6", # hms2
-  "#b3cfd1", # hms3
-  "#b39271", # hms extra 1
-  "#00aec7", # hms extra 2
-  "#EC8865", # old
-  "#C56BA4"  # old
-)
+library(magrittr)
+palette_medium <- palette_light %>%
+  colorspace::darken()
 
-palette_dark <- c(
-  "#11223a", # blue - main color
-  "#8cc0c6", # hms2
-  "#b3cfd1", # hms3
-  "#b39271", # hms extra 1
-  "#00aec7", # hms extra 2
-  "#EC8865", # old
-  "#C56BA4"  # old
-)
+palette_dark <- palette_light %>%
+  colorspace::darken(amount = 0.2) %>%
+  colorspace::desaturate(amount = 0.1)
+
+scales::show_col(palette_light)
+scales::show_col(palette_medium)
+scales::show_col(palette_dark)
 
 # Palette for the montly reports - use for areas and columns
 palette_hms <- c(
@@ -68,3 +64,5 @@ palette_hms_darker <- c(
   palette_medium,
   palette_light
 )
+
+colorspace::swatchplot(palette_light, palette_medium, palette_dark)

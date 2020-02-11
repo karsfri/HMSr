@@ -134,7 +134,7 @@ plot_yfirverd <- function(df, title = NULL){
     ggplot(aes(x = timi, y = val, fill = var)) +
     geom_area(position = position_fill()) +
     scale_y_continuous(labels = scales::percent_format()) +
-    scale_fill_manual(values = palette_hms_darker) +
+    scale_fill_manual(values = palette_hms) +
     labs(
       y = NULL,
       x = NULL,

@@ -24,32 +24,23 @@ cpi_adjust <- function(df, vars, timevar, at_date = NULL){
 
   timevar2 <- enquo(timevar)
 
-  # find the maximum date for which all variables are selected
   vnv <- get_vnv()
 
-  vnv_date <- max(vnv$timi)
-  df_date <- df %>%
-    drop_na(!!!vars) %>%
-    summarise(
-      max_time = max(!!timevar2)
-    ) %>%
-    .$max_time
-
-  date_used <- max(vnv_date, df_date)
-
-  if(!is.null(at_date)) date_used <- at_date
+  # price level at date
+  if(!is.null(at_date)){
+    stopifnot(at_date %in% vnv$timi)
+  } else {
+    at_date <- max(vnv$timi)
+  }
 
   message(glue::glue("Selected columns set at {date_used} price levels"))
 
-  # price level at date
-  stopifnot(date_used %in% vnv$timi)
-
+  # price level at given time
   price_level <- vnv %>%
-    filter(timi == date_used) %>%
+    filter(timi == at_date) %>%
     .$vnv
 
   stopifnot(length(price_level) == 1)
-
 
   df %>%
     mutate(

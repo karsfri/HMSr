@@ -150,23 +150,22 @@ theme_set_hms <- function(theme = theme_hms(), overwrite_default_palette = TRUE)
   #grDevices::windowsFonts(Setimo = windowsFont("Setimo"))
   #grDevices::windowsFonts(`Setimo Light` = windowsFont("Setimo Light"))
 
-  yellow <- palette_light[1]
-  yellow_dark <- palette_dark[1]
+  blue <- palette_light[1]
   red <- palette_dark [3]
 
 
-  update_geom_defaults(GeomBoxplot, list(fill = yellow))
+  update_geom_defaults(GeomBoxplot, list(fill = blue))
   # update_geom_defaults(GeomBoxplot, list(outlier.color = red))
-  update_geom_defaults("col", list(fill = yellow, color = NA))
-  update_geom_defaults("bar", list(fill = yellow, color = NA))
-  update_geom_defaults("area", list(fill = yellow, color = NA))
-  update_geom_defaults("line", list(color = yellow_dark))
-  update_geom_defaults("point", list(color = yellow_dark, size = 3))
+  update_geom_defaults("col", list(fill = blue, color = NA))
+  update_geom_defaults("bar", list(fill = blue, color = NA))
+  update_geom_defaults("area", list(fill = blue, color = NA))
+  update_geom_defaults("line", list(color = blue))
+  update_geom_defaults("point", list(color = blue, size = 3))
 
   if(overwrite_default_palette){
 
     scale_colour_discrete <- function(...) {
-      scale_colour_manual(..., values = palette_hms_darker %>% unname())
+      scale_colour_manual(..., values = palette_hms %>% unname())
     }
 
     scale_fill_discrete <- function(...) {
