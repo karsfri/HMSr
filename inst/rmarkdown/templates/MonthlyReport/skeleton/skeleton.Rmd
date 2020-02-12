@@ -1,0 +1,111 @@
+---
+title: "Húsnæðismarkaðurinn -Mánaðarskýrsla"
+subtitle: "Húsnæðis- og mannvirkjastofnun"
+authors: |
+        | Guðmundur Sigfinnsson, hagfræðingur (gudmundur.sigfinnsson@hms.is)
+        | Kári S. Friðriksson, hagfræðingur (kari.fridriksson@hms.is)
+        | Ólafur Sindri Helgason, yfirhagfræðingur (olafur.sindri.helgason@hms.is)
+date: "`r format(Sys.time(), '%B %Y')`"
+publishedDate: "`r format(Sys.time(), '%d.%B %Y')`"
+output:
+  pdf_document:
+    fig_caption: yes
+    keep_tex: no
+    latex_engine: xelatex
+    template: "./LTXtemplate.tex"
+    fig_width: 3.7
+    number_sections: no
+  html_document:
+    fig_caption: yes
+    keep_md: no
+    number_sections: true
+    smart: no
+    toc: yes
+    toc_depth: 2
+---
+
+
+```{r echo=FALSE, warning=FALSE,message=FALSE}
+knitr::opts_chunk$set(fig.align="center", 
+                      fig.margin=FALSE, 
+                      fig.path='figs/',
+                     echo=FALSE,
+                     warning=FALSE,
+                     message=FALSE, 
+                     cache=FALSE,
+                     dev.args=list(bg="white"))
+```
+
+```{r include=FALSE}
+# Library functions to be used in child docs 
+library(HMSr)
+library(here)
+library(tidyverse)
+
+Sys.setenv(LANGUAGE="is")
+
+library(odbc)
+library(lubridate)
+library(glue)
+library(scales)
+
+# Override the default theme and colors for the ggplot
+theme_set_hms()
+
+
+# Here will use the path to the git repository base to ensure every path is universal within the repository 
+# here::here("HMS_Economics", "Reports")
+
+# Report path will change depending on where this RMD file is saved
+ReportPath <- getwd()
+```
+
+
+```{r include=FALSE}
+# Eventually make into function
+
+# Source all general functions in the () dir
+files.sources <- list.files(path=here::here("HMS_Economics", "Code", "Functions"), full.names = TRUE,  pattern="*.R")
+map(files.sources, source, encoding="utf-8")
+
+# Source all analysis functions in the finalised analysis Dir
+files.sources <- list.files(path=here::here("HMS_Economics", "Code", "Analyses", "Finalised"), full.names = TRUE,  pattern="*.R")
+map(files.sources, source, encoding="utf-8")
+```
+
+
+```{r}
+# Creating the runtime.log file 
+create_log()
+```
+
+
+
+
+```{r RealestateMarket, child = paste0(ReportPath,'/Sections/01_RealestateMarket.Rmd')}
+```
+
+
+\clearpage
+
+```{r RentalMarket, child = paste0(ReportPath,'/Sections/02_RentalMarket.Rmd')}
+```
+
+\clearpage
+
+```{r MoneyLending, child = paste0(ReportPath, '/Sections/03_MoneyLending.Rmd')}
+```
+
+\clearpage
+
+```{r ConstructionMarket, child = paste0(ReportPath, '/Sections/04_ConstructionMarket.Rmd')}
+```
+
+\clearpage
+
+
+```{r HMS, child = paste0(ReportPath, '/Sections/05_HMS.Rmd')}
+```
+
+\clearpage
+

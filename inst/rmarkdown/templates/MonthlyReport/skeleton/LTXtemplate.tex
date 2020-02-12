@@ -1,0 +1,259 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass{$documentclass$}
+%\documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$lang$,$endif$$if(papersize)$$papersize$,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
+
+\usepackage[english]{babel}
+
+\usepackage{hyperref} % To add links to docs
+\usepackage{multicol} % Used to add multiple columns to documents
+\usepackage{lastpage} % Used to determine the number of pages in the document (for "Page X of Total")
+\usepackage{graphicx} % Required for adding images
+
+\usepackage{afterpage}% for "\afterpage"
+\usepackage{xcolor}
+\usepackage[pagecolor={white}, nopagecolor={white}]{pagecolor}
+
+
+%----------------------------------------------------------------------------------------
+%	DEFINE CUSTOM COLOURS
+%----------------------------------------------------------------------------------------
+
+	
+\definecolor{HMSNavy}{HTML}{001628}
+\definecolor{HMSDarkOrange}{HTML}{D74A3E}
+\definecolor{HMSBrown}{HTML}{9E7557}
+\definecolor{HMSBlue}{HTML}{5E9FB3}
+\definecolor{HMSLightBlue}{HTML}{A5C2BD}
+\definecolor{HMSBrightOrange}{HTML}{FF5028}
+
+% Attempt to set a colour for the header and have the child documents change this (Not working yet)
+\definecolor{HeaderColour}{HTML}{ff00ff}
+
+% Colours for links in document
+\hypersetup{
+    colorlinks=true,
+    linkcolor=HMSBlue,  
+    urlcolor=HMSBlue
+}
+
+\color{HMSNavy} %set text colour
+
+
+%----------------------------------------------------------------------------------------
+%	MARGINS AND SPACING
+%----------------------------------------------------------------------------------------
+
+\usepackage{geometry} % Required for adjusting page dimensions
+
+\geometry{
+	top=0.2cm, % Top margin
+	bottom=1.5cm, % Bottom margin
+	left=1.5cm, % Left margin
+	right=1.5cm, % Right margin
+	includehead, % Include space for a header
+	includefoot, % Include space for a footer
+	%showframe, % Uncomment to show how the type block is set on the page
+}
+
+\setlength{\columnsep}{7mm} 
+
+%----------------------------------------------------------------------------------------
+%	FONTS
+%----------------------------------------------------------------------------------------
+
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+%\usepackage[utf8]{inputenc} % Required for inputting international characters
+
+%\usepackage{lmodern} % use fourier package , lmodern, bookman
+%\fontfamily{lmr}\selectfont
+\usepackage{fontspec}
+\setmainfont{Verdana}
+
+
+%----------------------------------------------------------------------------------------
+%	HEADERS AND FOOTERS
+%----------------------------------------------------------------------------------------
+\usepackage{lastpage} % for the number of the last page in the document
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\addtolength{\headheight}{4cm}
+
+% THIS IS HOW I WOULD LIKE TO SET THE HEADERS HOWEVER THEY CURRENTLY NEED TO BE SET AT THE TOP OF
+% EACH CHILD SCRIPT SINCE I CANNOT PASS PARAMETERS FROM THE CHILD SCRIPTS YET
+%\color{HeaderColour}
+%\fancyhf{}
+%\lhead{\color{HeaderColour}\Huge\textsc{Real Estate Market}}
+%\chead{}
+%\rhead{\setlength{\unitlength}{1mm}
+%  \begin{picture}(46,0)
+%    \put(0,0){\includegraphics[scale=0.07]{D:/Code/HMS_DS/HMS_Economics/Reports/LaTeXSettings/Images/HMS_Blue_Crop.png}}
+%    \put(0,0){\includegraphics[scale=0.07]{./Images/HMS_Blue_Crop.png}}
+%  \end{picture}}
+%\cfoot{}
+%\rfoot{Page \thepage\ of \pageref*{LastPage}}
+%
+%\color{HMSNavy}
+
+
+
+
+%----------------------------------------------------------------------------------------
+%	COVER PAGE
+%----------------------------------------------------------------------------------------
+
+\newcommand*{\titleHMS}{\begingroup % Create the command for including the title page in the document
+
+\begin{minipage}{2cm}
+\begin{flushleft}
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{6cm}
+\begin{flushleft}
+%\includegraphics[scale=.09]{D:/Code/HMS_DS/HMS_Economics/Reports/LaTeXSettings/Images/HMS_Blue_Crop.png}
+\includegraphics[scale=.09]{./Images/HMS_Blue_Crop.png}
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{7cm}
+\begin{flushleft}
+{\Large\bfseries \textbf{$subtitle$}}
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{5cm}
+\begin{flushright}
+{\Large \textbf{$date$}} 
+\end{flushright}
+\end{minipage}
+
+\vspace{0.20\textheight}
+\begin{minipage}{0.2\textwidth}
+\begin{flushleft}
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.65\textwidth}
+\begin{flushright}
+{\noindent\Huge\bfseries \textbf{$title$}}
+\end{flushright}
+\end{minipage}
+\vspace{0.05\textheight}
+\begin{center}
+%\includegraphics[width=22cm]{D:/Code/HMS_DS/HMS_Economics/Reports/LaTeXSettings/Images/Image.png}
+\includegraphics[width=22cm]{./Images/Image.png}
+\end{center}
+
+\endgroup}
+
+
+
+%----------------------------------------------------------------------------------------
+%	BACK PAGE
+%----------------------------------------------------------------------------------------
+
+\newcommand*{\BackPageHMS}{\begingroup % Create the command for including the title page in the document
+
+\vspace*{7cm}
+%\begin{flushleft}\hspace{0.003cm}\includegraphics[scale=.17]{D:/Code/HMS_DS/HMS_Economics/Reports/LaTeXSettings/Images/HMS_White_Crop.png}
+\begin{flushleft}\hspace{0.003cm}\includegraphics[scale=.17]{./Images/HMS_White_Crop.png}
+\end{flushleft}
+\color{white}
+
+\noindent\rule{11cm}{1pt}\\
+
+\noindent\textbf{Útgefandi:}\\
+Hagdeild HMS\\
+
+\noindent\textbf{Umsjón:}\\
+\color{HMSBlue}
+$authors$\\
+
+\color{white}
+\noindent\textbf{Útgáfudagur:}\\
+$publishedDate$\\
+
+\noindent\rule{11cm}{1pt}\\
+
+\begin{flushleft}Hagdeild HMS er óháður aðili sem framkvæmir greiningar á húsnæðismarkaði. Upplýsingar sem birtast í skýrslu þessari endurspegla mat starfsmanna Hagdeildar á fyrirliggjandi upplýsingum á hverjum tíma og geta breyst án fyrirvara.
+Hagdeild HMS ber ekki skylda til að veita aðgang að frekari upplýsingum en birtar eru í skýrslu þessari.
+\end{flushleft}
+
+\vspace{3cm}
+
+
+\endgroup}
+
+
+%----------------------------------------------------------------------------------------
+%	CODE CHUNKS (Needed if run from RMarkdown)
+%----------------------------------------------------------------------------------------
+
+% To highlight code chunks if included
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+\setcounter{secnumdepth}{0}
+
+\begin{document}
+
+
+% Declare new goemetry for the title page only.
+\newgeometry{margin=0pt, 
+	top=1.5cm, % Top margin
+	bottom=-0.5cm, % Bottom margin
+	left=-1.5cm, % Left margin
+	right=-1.5cm}
+%-----------------------------
+
+
+% Add in Title page
+$if(title)$
+{
+\pagestyle{empty} % Removes page numbers
+\titleHMS
+\newpage
+}
+$endif$
+
+% Ends the declared geometry for the titlepage
+\restoregeometry
+%----------------------
+
+% Main part of document
+% start counter after title page, start and end multi columns (2)
+\setcounter{page}{1}
+\begin{multicols}{2}
+
+$body$
+
+\end{multicols}
+
+% Add in new page so final page is the only one thats coloured.
+\newpage
+\newpagecolor{HMSNavy}
+
+% Declare new goemetry for the last page only.
+\newgeometry{margin=0pt, 
+	top=1.5cm, % Top margin
+	bottom=-0.5cm, % Bottom margin
+	left=1.5cm, % Left margin
+	right=7cm}
+%-----------------------------
+
+
+%\pagestyle{empty} % Removes page numbers
+
+% Set header and footer to empty like this so the header and footer for the final knitted page doesnt fail?
+\fancyhf{}
+%-----------------------------
+
+% Add in Back page formatting
+\BackPageHMS
+
+
+% Ends the declared geometry for the titlepage
+\restoregeometry
+%----------------------
+
+\end{document}
