@@ -21,7 +21,8 @@ Imports:
     magrittr,
     dbplyr,
     odbc,
-    pxweb
+    pxweb,
+    cgwtools
 RoxygenNote: 7.0.2
 Remotes: 
     tidyverse/ggplot2
