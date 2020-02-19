@@ -88,7 +88,7 @@ GenerateDocumentation <- function(fun, fun_name = as.character(substitute(fun)),
 
   # Add in required extra Latex
 
-  subtitle <- paste0("\\author{ Function: ", fun_name, "}")
+  subtitle <- paste0("\\author{ Function: ", gsub("_", " ", fun_name), "}")
 
   # If HMS logo add in title (Cant add to header or top of doc because of formatting in RD package)
   if(file.exists(logofile)){
@@ -130,7 +130,7 @@ GenerateDocumentation <- function(fun, fun_name = as.character(substitute(fun)),
            warning=""))
 
   cgwtools::popd()
-  print(paste0("Documentaion written to ", DocDir, " in file ", fun_name, ".pdf"))
+  print(paste0("Documentation written to ", DocDir, " in file ", fun_name, ".pdf"))
 }
 
 
