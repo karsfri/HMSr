@@ -24,7 +24,7 @@ tidy_seas <- function(x, date, frequency = 12, ...){
   stopifnot(length(date) == length(unique(date)))
 
   ts_data <- col_to_ts(x, start = min(date), frequency = frequency)
-  adjusted <- adjust(ts_data)
+  adjusted <- adjust(ts_data, ...)
   adjusted
 }
 

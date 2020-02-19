@@ -20,7 +20,7 @@
 
 
 
-theme_hms <- function(fsm = 1){
+theme_hms <- function(fsm = 1, fontVal = "Helvetica"){
   #grDevices::windowsFonts(Setimo = windowsFont("Setimo"))
   #grDevices::windowsFonts(`Setimo Light` = windowsFont("Setimo Light"))
 
@@ -129,6 +129,9 @@ cap_hagstofa <- "Heimild: Hagstofa Íslands"
 cap_hms_hagstofa <- "Heimild: Hagstofa Íslands og hagdeild HMS"
 cap_sedlo <- "Heimild: Seðlabanki Íslands"
 cap_hms_sedlo <- "Heimild: Seðlabanki Íslands og hagdeild HMS"
+cap_thjodskra_hags <- "Heimild: Þjóðskrá Íslands og Hagstofa Íslands"
+cap_hms_thjsk_hags <- "Heimild: Þjóðskrá Íslands, Hagstofa Íslands\nog hagdeild HMS"
+
 
 # Set theme  --------------------------------------------------------------
 

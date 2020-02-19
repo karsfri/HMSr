@@ -85,6 +85,7 @@ yfirverd_get_data <- function(connection = get_connection_windows()){
         [Dim_Timi_Utgefid]
         ,[Dim_Timi_Thinglyst]
         ,[Dim_Fasteignir]
+        ,[Postnumer]
 
         ,[Kaupverd]
 
