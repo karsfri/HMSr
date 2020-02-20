@@ -22,7 +22,9 @@ Imports:
     dbplyr,
     odbc,
     pxweb,
-    cgwtools
+    cgwtools,
+    rlang,
+    seasonal
 RoxygenNote: 7.0.2
 Remotes: 
     tidyverse/ggplot2
@@ -31,3 +33,4 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+

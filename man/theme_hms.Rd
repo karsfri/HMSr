@@ -4,7 +4,7 @@
 \alias{theme_hms}
 \title{Theme for [HMS](https://www.hms.is/)}
 \usage{
-theme_hms(fsm = 1)
+theme_hms(fsm = 1, fontVal = "Helvetica")
 }
 \arguments{
 \item{fsm}{Font Size Multiplier}
