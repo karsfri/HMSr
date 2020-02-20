@@ -69,7 +69,7 @@ theme_hms <- function(fsm = 1, fontVal = "Helvetica"){
 
 
 
-#' Title
+#' Use vertical gridlines instead of horizontal
 #'
 #' @param color
 #' @param ...

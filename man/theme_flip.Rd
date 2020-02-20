@@ -2,7 +2,7 @@
 % Please edit documentation in R/theme_hms.R
 \name{theme_flip}
 \alias{theme_flip}
-\title{Title}
+\title{Use vertical gridlines instead of horizontal}
 \usage{
 theme_flip(color = gray, ...)
 }
@@ -13,5 +13,5 @@ theme_flip(color = gray, ...)
 
 }
 \description{
-Title
+Use vertical gridlines instead of horizontal
 }
